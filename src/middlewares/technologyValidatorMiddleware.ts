@@ -1,11 +1,16 @@
+/*
+    this file handles the validation for all
+    technology related requests,
+    using yup library
+*/
+
 import {Request, Response, NextFunction} from "express"
 import {object, string } from "yup"
 import { helperFunctions } from "../utils/index"
 
-
-
 export class TechnologyValidator{
 
+    //validates post and update technology requests
     postAndUpdateTechnology(req: Request, res: Response, next: NextFunction){
         let technologySchema = object({
             name: string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/),
@@ -31,6 +36,7 @@ export class TechnologyValidator{
             })
     }
 
+    //validates delete technology requests
     deleteTechnology(req: Request, res: Response, next: NextFunction){
         let technologySchema = object({
             name: string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/)

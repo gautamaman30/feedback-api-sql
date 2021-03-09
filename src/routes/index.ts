@@ -1,3 +1,8 @@
+/*
+    this file handles all the routes for the application,
+    pass the control to middlewares and controllers
+*/
+
 import {Router} from "express"
 import {authMiddleware, feedbackValidator, userValidator, technologyValidator} from "../middlewares/index"
 import {userController, technologyController, feedbackController} from "../controllers/index"

@@ -1,10 +1,16 @@
+/*
+    this file handles the validation for all
+    user related requests,
+    using yup library
+*/
+
 import {Request, Response, NextFunction} from "express"
 import { helperFunctions } from "../utils/index"
 import {object, string } from "yup"
 
-
 export class UserValidator{
 
+    //validates delete user requests
     deleteUser(req: Request, res: Response, next: NextFunction){
         let userSchema = object({
             email: string().email().required().trim().max(100)
@@ -26,6 +32,7 @@ export class UserValidator{
             })
     }
 
+    //validates user login requests
     loginUser(req: Request, res: Response, next: NextFunction){
         let userSchema = object({
             email: string().email().required().trim().max(100),
@@ -50,6 +57,7 @@ export class UserValidator{
             })
     }
 
+    //validates post user requests
     postUser(req: Request, res: Response, next: NextFunction){
         let userSchema = object({
             name: string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/),
@@ -81,6 +89,7 @@ export class UserValidator{
             })
     }
 
+    //validates update user requests
     updateUser(req: Request, res: Response, next: NextFunction){
         let userSchema = object({
             password: string().trim().min(8).max(100).matches(/^[a-zA-Z0-9!@#$%&*]+$/),

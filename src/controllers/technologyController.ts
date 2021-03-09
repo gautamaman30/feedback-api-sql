@@ -1,10 +1,15 @@
+/*
+    this file handles the controllers for all the technology related
+    actions and interacts with technology's services
+*/
+
 import {Request, Response } from "express"
 import {userService, technologyService } from "../services/index"
 import { helperFunctions, Errors} from "../utils/index"
 
-
 export default class TechnologyController{
 
+    //handles get technology requests
     async getTechnology(req: Request, res: Response){
         try{
             const technology_id = req.query.technology_id;
@@ -35,6 +40,7 @@ export default class TechnologyController{
         }
     }
 
+    //handles post technology requests
     async postTechnology(req: Request, res: Response){
         try{
             const admin_id: string = req.body.user_id;
@@ -69,6 +75,7 @@ export default class TechnologyController{
         }
     }
 
+    //handles update technology requests
     async updateTechnology(req: Request, res: Response){
         try{
             const admin_id: string = req.body.user_id;
@@ -100,6 +107,7 @@ export default class TechnologyController{
         }
     }
 
+    //handles delete technology requests
     async deleteTechnology(req: Request, res: Response){
         try{
             const admin_id: string = req.body.user_id;

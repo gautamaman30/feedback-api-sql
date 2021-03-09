@@ -1,10 +1,13 @@
+/*
+    this file creates user entity with all the properties,
+    using typeorm library to define schemas and
+    reflect-metadata library for decorators
+*/
+
 import "reflect-metadata"
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
-import { Feedback } from "./feedback"
-
 
 type roles_structure = 'admin' | 'employee';
-
 
 @Entity()
 export class Users {

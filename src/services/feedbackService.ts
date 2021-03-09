@@ -1,8 +1,15 @@
+/*
+    this file handles the services for all the feedback related
+    actions and interacts with database
+*/
+
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions } from '../utils/index'
 
 
 export default class FeedbackService{
+
+    //get all the feedbacks
     async getAllFeedbacks(){
         try{
             const result: any = await database.findFeedbacks({});
@@ -16,6 +23,7 @@ export default class FeedbackService{
         }
     }
 
+    //get all feedbacks with given query/filter
     async getFeedbacks(feedback_info){
         try{
             const result: any = await database.findFeedbacks(feedback_info);
@@ -29,6 +37,10 @@ export default class FeedbackService{
         }
     }
 
+    /*
+        get all feedbacks with given query/filter and
+        sort them according to given sort field
+    */
     async getFeedbacksFilteredAndSorted(filter?, sort?){
         try{
             let result: any;
@@ -62,6 +74,7 @@ export default class FeedbackService{
         }
     }
 
+    //updates the feedback status given feedback id and status
     async editFeedbackStatus(feedback_info: {feedback_id: string, status: "approved" | "rejected"}){
 
         try{
@@ -80,6 +93,7 @@ export default class FeedbackService{
         }
     }
 
+    //updates feedback count given feedback id and name of user adding the count(count_users)
     async editFeedbackCount(feedback_info: {feedback_id: string, count_users: string}){
 
         try{
@@ -98,6 +112,7 @@ export default class FeedbackService{
         }
     }
 
+    //updates feedback content
     async editFeedback(feedback_info: {feedback_id: string, feedback: string}){
         try{
             const result: any = await database.updateFeedback({ feedback_id: feedback_info.feedback_id },  {feedback: feedback_info.feedback });
@@ -115,6 +130,7 @@ export default class FeedbackService{
         }
     }
 
+    //deletes the feedback matching the given feedback id
     async removeFeedback(feedback_info: {feedback_id: string}){
 
         try{
@@ -133,6 +149,7 @@ export default class FeedbackService{
         }
     }
 
+    //finds if the feedback exists given the key and value
     async checkFeedbackExist(key: string, value: any){
         try{
             let feedback_info: any = {};
@@ -152,6 +169,7 @@ export default class FeedbackService{
         }
     }
 
+    //creates a new feedback with all the given feedback information
     async addFeedback(feedback_info: {name: string, posted_by: string, feedback: string, entity_id: string, entity: 'user' | 'technology'}){
         try{
             let new_feedback: any;
@@ -181,6 +199,7 @@ export default class FeedbackService{
         }
     }
 
+    //filter an array according to a key and set of values 
     filterFeedback(feedback_array: Array<any>, key: string, values: string[]) {
         let set = helperFunctions.convertArrayToSet(values);
         return feedback_array.filter((item) => item[key] && set.has(item[key])? true: false);

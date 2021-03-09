@@ -1,10 +1,15 @@
+/*
+    this file handles the services for all the technology related
+    actions and interacts with database
+*/
+
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions} from '../utils/index'
 
 
 export default class TechnologyService{
 
-
+    //get all technologies from the database
     async getAllTechnologies(){
         try{
             const result: any = await database.findTechnologies({});
@@ -18,8 +23,7 @@ export default class TechnologyService{
         }
     }
 
-
-
+    //updates technology name and details
     async editTechnology(technology_info: {name: string, details: string}){
         try{
             let filter: any = { name: technology_info.name };
@@ -40,7 +44,7 @@ export default class TechnologyService{
         }
     }
 
-
+    //removes the technology from database matching given name
     async removeTechnology(technology_info: {name: string}){
 
         try{
@@ -59,8 +63,7 @@ export default class TechnologyService{
         }
     }
 
-
-
+    //finds if technology exists with given the key and value
     async checkTechnologyExist(key: string, value: any){
         try{
             let technology_info: any = {};
@@ -81,7 +84,7 @@ export default class TechnologyService{
         }
     }
 
-
+    //adds a new technology with all the given technology information
     async addTechnology(technology_info: {name: string, details?: string}){
         try{
             let technology: any;

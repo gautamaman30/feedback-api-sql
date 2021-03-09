@@ -1,9 +1,15 @@
+/*
+    this file handles the controllers for all the feedback related
+    actions and interacts with feedback's services
+*/
+
 import {Request, Response } from "express"
 import {userService, technologyService, feedbackService} from "../services/index"
 import {helperFunctions, Errors} from "../utils/index"
 
-
 export default class FeedbackController{
+
+    //handles get feedbacks requests
     async getFeedbacks(req: Request, res: Response) {
         try{
             const user_id: string = req.body.user_id;
@@ -49,6 +55,7 @@ export default class FeedbackController{
         }
     }
 
+    //handles post user feedbacks requests
     async postUserFeedback(req: Request, res: Response){
         try{
             const user_id: string = req.body.user_id;
@@ -89,6 +96,7 @@ export default class FeedbackController{
         }
     }
 
+    //handles post technology feedbacks requests
     async postTechnologyFeedback(req: Request, res: Response){
         try{
             const user_id: string = req.body.user_id;
@@ -125,6 +133,7 @@ export default class FeedbackController{
         }
     }
 
+    //handles update feedbacks requests
     async updateFeedback(req: Request, res: Response){
         try{
             const user_id: string = req.body.user_id;
@@ -161,6 +170,7 @@ export default class FeedbackController{
         }
     }
 
+    //handles update feedbacks status requests
     async updateFeedbackStatus(req: Request, res: Response){
         try{
             const admin_id: string = req.body.user_id;
@@ -187,6 +197,7 @@ export default class FeedbackController{
         }
     }
 
+    //handles update feedbacks count requests
     async updateFeedbackCount(req: Request, res: Response){
         try{
             const user_id: string = req.body.user_id;
@@ -225,6 +236,7 @@ export default class FeedbackController{
         }
     }
 
+    //handles delete feedbacks requests
     async deleteFeedback(req: Request, res: Response){
         try{
             const admin_id: string = req.body.user_id;

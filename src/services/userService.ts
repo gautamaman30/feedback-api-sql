@@ -1,8 +1,14 @@
+/*
+    this file handles the services for all the user related
+    actions and interacts with database
+*/
+
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions } from '../utils/index'
 
-
 export default class UserService{
+
+    //get all users
     async getAllUsers(){
         try{
             let result: any = await database.findUsers({});
@@ -17,6 +23,7 @@ export default class UserService{
         }
     }
 
+    //get all users with given key and value query
     async getUsers(key: string, value: any){
 
         try{
@@ -40,6 +47,7 @@ export default class UserService{
 
     }
 
+    //removes user matching the given user email
     async removeUser(user_info: {email: string}){
         try{
             const result: any = await database.deleteUser({ email: user_info.email });
@@ -57,6 +65,7 @@ export default class UserService{
         }
     }
 
+    //finds if a user exists with the given key and value
     async checkUserExist(key: string, value: any){
 
         try{
@@ -78,6 +87,7 @@ export default class UserService{
         }
     }
 
+    //finds if the admin exists with the given key and value
     async checkAdminExist(key: string, value: any){
 
         try{
@@ -103,6 +113,7 @@ export default class UserService{
         }
     }
 
+    //adds a new user to the database given all the details about the user
     async addUser(user_info: {name: string, email: string, title?: string, date_of_birth?: string}){
 
         try{
@@ -140,6 +151,7 @@ export default class UserService{
 
     }
 
+    //updates user's password, title and date of birth
     async editUser(user_info: {email: string, password?: string, title?: string, date_of_birth?: string}){
 
         try{

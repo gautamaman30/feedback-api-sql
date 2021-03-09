@@ -1,8 +1,13 @@
+/*
+    this file creates database connection using typeorm library
+    and pg as postgresql database driver library
+    also creates schemas for all the entities
+*/
+
 import { createConnection, Connection} from "typeorm"
 import { Users } from "./user"
 import { Technology } from "./technology"
 import { Feedback } from "./feedback"
-
 
 export class ConnectDb{
 
@@ -34,7 +39,6 @@ export class ConnectDb{
                 password: this.password,
                 database: this.database,
                 entities: this.entities,
-//                synchronize: true,
                 logging: true
             });
             return connection;

@@ -1,10 +1,15 @@
+/*
+    this file handles the controllers for all the user related
+    actions and interacts with user's services
+*/
+
 import {Request, Response, NextFunction} from "express"
 import { userService } from "../services/index"
 import { helperFunctions, Errors} from "../utils/index"
 
-
 export default class UserController{
 
+    //handles get user requests
     async getUser(req: Request, res: Response){
         try{
             const user_id: any = req.query.user_id;
@@ -38,6 +43,7 @@ export default class UserController{
         }
     }
 
+    //handles post user requests
     async postUser(req: Request, res: Response, next: NextFunction){
         try{
             const admin_id: string = req.body.user_id;
@@ -82,6 +88,7 @@ export default class UserController{
         }
     }
 
+    //handles user login requests
     async loginUser(req: Request, res: Response, next: NextFunction){
         try{
             let email: string = req.body.email;
@@ -116,6 +123,7 @@ export default class UserController{
         }
     }
 
+    //handles delete user requests
     async deleteUser(req: Request, res: Response){
         try{
             const admin_id: string = req.body.user_id;
@@ -147,6 +155,7 @@ export default class UserController{
         }
     }
 
+    //handles update user requests
     async updateUser(req: Request, res: Response, next: NextFunction){
         try{
             const user_id: string = req.body.user_id;

@@ -1,11 +1,16 @@
+/*
+    this file handles the authentication middleware ( signing
+    and verifying json web tokens )
+*/
+
 import { Request, Response, NextFunction} from "express"
 import jwt, { Secret } from "jsonwebtoken"
 import { Errors } from "../utils/index"
 import configObj from "../config"
 
-
 export class AuthMiddleware{
 
+    //sign a new token and send the response, using jsonwebtoken library
     signToken(req: Request, res: Response, next: NextFunction){
         const signOptions: any = {
             issuer: configObj.JWT_TOKEN_ISSUER,
@@ -29,6 +34,10 @@ export class AuthMiddleware{
         });
     }
 
+    /*
+        verify the json web token and calls the controller functions,
+        using jsonwebtoken library
+    */
     verifyToken(req: Request, res: Response, next: NextFunction){
 
         let token: any;
@@ -49,6 +58,7 @@ export class AuthMiddleware{
         });
     }
 
+    //converts all the body parameter keys to lowercase
     checkRequestKeys(req: Request, res: Response, next: NextFunction){
         let body = req.body;
         for(let key in body){
@@ -57,6 +67,7 @@ export class AuthMiddleware{
         return next();
     }
 
+    //sends a response for all the invalid routes
     handleInvalidRoutes(req: Request, res, Response) {
         console.log(req.path);
         res.status(400);

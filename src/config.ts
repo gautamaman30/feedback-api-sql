@@ -1,10 +1,16 @@
+/*
+    this file checks server mode (development, staging and production)
+    and loads the environment file depending on the server mode
+*/
 import { join } from "path"
 import dotenv from "dotenv"
 
+//loading .env file
 dotenv.config({
     path: join(process.cwd(), `${process.env.NODE_ENV}.env`)
 })
 
+//object storing environment variables
 const configObj = {
     HOST: process.env.HOST,
     PORT: process.env.PORT,

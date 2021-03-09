@@ -1,3 +1,9 @@
+/*
+    this file handles the validation for all
+    feedbacks related requests,
+    using yup library
+*/
+
 import {Request, Response, NextFunction} from "express"
 import {object, string } from "yup"
 import { helperFunctions } from "../utils/index"
@@ -5,6 +11,7 @@ import { helperFunctions } from "../utils/index"
 
 export class FeedbackValidator{
 
+    //validates get requests for feedbacks
     getFeedbacks(req: Request, res: Response, next: NextFunction){
         let userSchema = object({
             filter: string().trim().matches(/(user|technology|status)/),
@@ -30,6 +37,7 @@ export class FeedbackValidator{
             })
     }
 
+    //validates post user feedbacks requests
     postUserFeedback(req: Request, res: Response, next: NextFunction){
         let feedbackSchema = object({
             name: string().required().trim().lowercase().min(3).max(50).matches(/^[a-z]+$/),
@@ -58,6 +66,7 @@ export class FeedbackValidator{
             })
     }
 
+    //validates post technology feedbacks requests
     postTechnologyFeedback(req: Request, res: Response, next: NextFunction){
         let feedbackSchema = object({
             name: string().required().trim().lowercase().min(3).max(50).matches(/^[a-z]+$/),
@@ -83,6 +92,7 @@ export class FeedbackValidator{
             })
     }
 
+    //validates update feedbacks requests
     updateFeedback(req: Request, res: Response, next: NextFunction){
         let feedbackSchema = object({
             feedback_id: string().required().trim().length(10),
@@ -108,6 +118,7 @@ export class FeedbackValidator{
             })
     }
 
+    //validates update feedbacks status requests
     updateFeedbackStatus(req: Request, res: Response, next: NextFunction){
         let feedbackSchema = object({
             feedback_id: string().required().trim().length(10),
@@ -133,6 +144,7 @@ export class FeedbackValidator{
             })
     }
 
+    //validates update feedbacks count requests
     updateFeedbackCount(req: Request, res: Response, next: NextFunction){
         let feedbackSchema = object({
           feedback_id: string().required().trim().length(10),
@@ -155,6 +167,7 @@ export class FeedbackValidator{
           })
     }
 
+    //validates delete feedbacks request
     deleteFeedback(req: Request, res: Response, next: NextFunction){
         let feedbackSchema = object({
           feedback_id: string().required().trim().length(10),

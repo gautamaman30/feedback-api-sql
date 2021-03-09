@@ -1,9 +1,16 @@
+/*
+    this file contains all the utilities functions,
+    to carry out some specific tasks
+    e.g. generating random passwords
+*/
+
 import bcrypt from "bcrypt"
 import {Errors} from "./errorsUtils"
 
 
 export class HelperFunctions{
 
+    //generates random password of length 8
     generateRandomPassword(): string{
         const str = "0123456789";
         let password = '';
@@ -14,6 +21,7 @@ export class HelperFunctions{
         return password;
     }
 
+    //converts a password and generates a hash, using bcrypt library
     async hashPassword(password){
         try{
             const saltRounds = 10;
@@ -26,6 +34,7 @@ export class HelperFunctions{
         }
     }
 
+    //compares a normal and a hashed password, using bcrypt library
     async comparePassword(password, hashedPassword){
         try{
             const result = await bcrypt.compare(password, hashedPassword);
@@ -39,6 +48,7 @@ export class HelperFunctions{
         }
     }
 
+    //converts a string or an array of strings to capitalCase
     capitalizeString(item: string | string[]){
         if(typeof item === "string"){
           return item[0].toUpperCase + item.substring(1);
@@ -46,6 +56,7 @@ export class HelperFunctions{
         return item.map(i => i[0].toUpperCase() + i.substring(1));
      }
 
+    //covnerts an array into a set
     convertArrayToSet(arr){
         let set = new Set();
         for(let i of arr){
@@ -54,6 +65,7 @@ export class HelperFunctions{
         return set;
     }
 
+    //generates random id of size 10
     generateId(): string {
         const str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@";
         let id = '';
@@ -64,6 +76,10 @@ export class HelperFunctions{
         return id;
     }
 
+    /*
+        converts string to date format accepted date format is "mm/dd/yyyy"
+        with current year greater than 18 years than yyyy
+    */
     convertStringToDate(date: string){
         let currentYear = (new Date()).getFullYear();
 
@@ -79,10 +95,12 @@ export class HelperFunctions{
         return new Date(parseInt(year),parseInt(month),parseInt(day));
     }
 
+    //converts a date to date with format "yyyy-mm-dd"
     getFormatedDate(date: Date){
         return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
     }
 
+    //removes sensitive data like password and _id 
     removeSensitiveData(data: any) {
         if(data) {
             if(Array.isArray(data)) {

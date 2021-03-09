@@ -1,11 +1,14 @@
+/*
+    this file creates feedback entity with all the properties,
+    using typeorm library to define schemas and
+    reflect-metadata library for decorators
+*/
+
 import "reflect-metadata"
 import { Entity, Column, PrimaryColumn } from "typeorm"
-import { Users } from "./user"
-
 
 type entity_structure = 'user' | 'technology';
 type status_structure = 'waiting' | 'approved' | 'rejected';
-
 
 @Entity()
 export class Feedback {
@@ -48,5 +51,4 @@ export class Feedback {
 
     @Column()
     count!: number;
-
 }

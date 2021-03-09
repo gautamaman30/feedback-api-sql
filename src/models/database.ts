@@ -1,11 +1,17 @@
+/*
+    this file interacts with database using typeorm library
+    ( postgresql as database)
+    and performs queries
+*/
+
 import { getRepository } from "typeorm"
 import { Users } from "./user"
 import { Technology } from "./technology"
 import { Feedback } from "./feedback"
 
-
 export class Database{
 
+    //finds first user matching the given query
     async findUser(query){
         try{
             const result = await getRepository(Users)
@@ -17,6 +23,7 @@ export class Database{
         }
     }
 
+    //finds all users matching the given query
     async findUsers(query){
         try{
             const result = await getRepository(Users)
@@ -28,6 +35,7 @@ export class Database{
         }
     }
 
+    //finds all technologies matching the given query
     async findTechnologies(query){
         try{
             const result = await getRepository(Technology)
@@ -39,6 +47,7 @@ export class Database{
         }
     }
 
+    //finds first technology matching the given query
     async findTechnology(query){
         try{
             const result = await getRepository(Technology)
@@ -50,6 +59,7 @@ export class Database{
         }
     }
 
+    //finds first feedback matching the given query
     async findFeedback(query){
         try{
             const result = await getRepository(Feedback)
@@ -61,6 +71,7 @@ export class Database{
         }
     }
 
+    //finds all feedbacks matching the given query
     async findFeedbacks(query){
         try{
             const result = await getRepository(Feedback)
@@ -72,6 +83,7 @@ export class Database{
         }
     }
 
+    //finds all feedbacks matching the given query in descending order
     async findFeedbacksSorted(query, sortField) {
         try{
             let result: any;
@@ -96,6 +108,7 @@ export class Database{
         }
     }
 
+    //updates all users matching the given filter
     async updateUser(filter, update){
         try{
             const result = await getRepository(Users)
@@ -107,6 +120,7 @@ export class Database{
         }
     }
 
+    //updates all technologies matching the given filter
     async updateTechnology(filter, update){
         try{
             const result = await getRepository(Technology)
@@ -118,6 +132,7 @@ export class Database{
         }
     }
 
+    //updates all feedbacks matching the given filter
     async updateFeedback(filter, update){
         try{
             const result = await getRepository(Feedback)
@@ -129,6 +144,7 @@ export class Database{
         }
     }
 
+    //updates feedback count matching the given filter
     async updateFeedbackCount(filter, update){
         try{
             const result = await getRepository(Feedback)
@@ -144,6 +160,7 @@ export class Database{
         }
     }
 
+    //inserts new user with given user information
     async insertUser(user_info){
         try{
             const result = await getRepository(Users)
@@ -155,6 +172,7 @@ export class Database{
         }
     }
 
+    //inserts new technology with given technology information
     async insertTechnology(technology_info){
         try{
             const result = await getRepository(Technology)
@@ -166,6 +184,7 @@ export class Database{
         }
     }
 
+    //inserts new feedback with given feedback information
     async insertFeedback(feedback_info){
         try{
             const result = await getRepository(Feedback)
@@ -177,6 +196,7 @@ export class Database{
         }
     }
 
+    //deletes user matching the given query
     async deleteUser(query){
         try{
             const result = await getRepository(Users)
@@ -188,6 +208,7 @@ export class Database{
         }
     }
 
+    //deletes technology matching the given query
     async deleteTechnology(query){
         try{
             const result = await getRepository(Technology)
@@ -199,6 +220,7 @@ export class Database{
         }
     }
 
+    //deletes feedback matching the given query
     async deleteFeedback(query){
         try{
             const result = await getRepository(Feedback)

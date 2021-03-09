@@ -1,3 +1,6 @@
+/*
+    this file export Errors messages
+*/
 
 export const Errors = {
     ADMIN_POST_USERS: "Only admins can add new users",
@@ -40,4 +43,4 @@ export const Errors = {
     AUTHORIZATION_FAILED : "Authorization failed",
     DATABASE_CONNECTION_FAILED: "Database connection failed, retry",
     URL_NOT_FOUND: "Invalid path, url not found"
-  }
+ }
