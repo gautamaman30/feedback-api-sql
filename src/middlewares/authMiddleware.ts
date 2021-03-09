@@ -57,8 +57,9 @@ export class AuthMiddleware{
         return next();
     }
 
-    checkUnknownRoutes(req: Request, res: Response){
-        res.status(404);
-        res.send({errors: Errors.BAD_REQUEST});
+    handleInvalidRoutes(req: Request, res, Response) {
+        console.log(req.path);
+        res.status(400);
+        res.send({error: Errors.URL_NOT_FOUND});
     }
 }

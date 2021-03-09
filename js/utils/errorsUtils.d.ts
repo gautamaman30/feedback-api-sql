@@ -33,4 +33,5 @@ export declare const Errors: {
     INVALID_DATE: string;
     AUTHORIZATION_FAILED: string;
     DATABASE_CONNECTION_FAILED: string;
+    URL_NOT_FOUND: string;
 };

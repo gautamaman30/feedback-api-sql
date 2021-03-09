@@ -52,9 +52,10 @@ class AuthMiddleware {
         }
         return next();
     }
-    checkUnknownRoutes(req, res) {
-        res.status(404);
-        res.send({ errors: index_1.Errors.BAD_REQUEST });
+    handleInvalidRoutes(req, res, Response) {
+        console.log(req.path);
+        res.status(400);
+        res.send({ error: index_1.Errors.URL_NOT_FOUND });
     }
 }
 exports.AuthMiddleware = AuthMiddleware;

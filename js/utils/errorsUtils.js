@@ -35,5 +35,6 @@ exports.Errors = {
     BAD_REQUEST: "Bad request",
     INVALID_DATE: "Invalid date",
     AUTHORIZATION_FAILED: "Authorization failed",
-    DATABASE_CONNECTION_FAILED: "Database connection failed, retry"
+    DATABASE_CONNECTION_FAILED: "Database connection failed, retry",
+    URL_NOT_FOUND: "Invalid route path"
 };

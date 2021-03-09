@@ -7,10 +7,15 @@ const index_2 = require("../controllers/index");
 class RoutesHandler {
     constructor() {
         this.router = express_1.Router();
+        this.invalidPathRouter = express_1.Router();
     }
     configureRoutes() {
+        //check body parameters keys convert them to lowercase
         this.router.use('/', index_1.authMiddleware.checkRequestKeys);
-        this.router.post('/user/login', index_1.userValidator.loginUser, index_2.userController.loginUser, index_1.authMiddleware.signToken);
+        //handle user login
+        this.router.route('/user/login')
+            .post(index_1.userValidator.loginUser, index_2.userController.loginUser, index_1.authMiddleware.signToken);
+        //handle json web token verification
         this.router.use('/', index_1.authMiddleware.verifyToken);
         //User routes
         this.router.route('/user')
@@ -39,7 +44,14 @@ class RoutesHandler {
         //post feedback for a technology
         this.router.route('/technology/feedback')
             .post(index_1.feedbackValidator.postTechnologyFeedback, index_2.feedbackController.postTechnologyFeedback);
+        //handle invalid routes after /api/v1
+        this.router.use('/', index_1.authMiddleware.handleInvalidRoutes);
         return this.router;
+    }
+    configureInvalidRoutes() {
+        //handles unknown routes
+        this.invalidPathRouter.use('/', index_1.authMiddleware.handleInvalidRoutes);
+        return this.invalidPathRouter;
     }
 }
 exports.RoutesHandler = RoutesHandler;

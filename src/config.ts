@@ -1,11 +1,9 @@
 import { join } from "path"
 import dotenv from "dotenv"
 
-
 dotenv.config({
     path: join(process.cwd(), `${process.env.NODE_ENV}.env`)
 })
-
 
 const configObj = {
     HOST: process.env.HOST,

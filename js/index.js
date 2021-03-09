@@ -13,4 +13,5 @@ const server = http_1.default.createServer(app);
 app.use(express_1.default.json());
 const router = new index_1.RoutesHandler();
 app.use('/api/v1', router.configureRoutes());
+app.use('/', router.configureInvalidRoutes());
 server.listen(config_1.default.PORT, () => console.log(`server is running at ${config_1.default.PORT}`));

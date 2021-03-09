@@ -35,8 +35,8 @@ class ConnectDb {
                     password: this.password,
                     database: this.database,
                     entities: this.entities,
-                    synchronize: true,
-                    logging: false
+                    //                synchronize: true,
+                    logging: true
                 });
                 return connection;
             }

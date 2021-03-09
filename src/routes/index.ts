@@ -2,21 +2,25 @@ import {Router} from "express"
 import {authMiddleware, feedbackValidator, userValidator, technologyValidator} from "../middlewares/index"
 import {userController, technologyController, feedbackController} from "../controllers/index"
 
-
 export class RoutesHandler{
     router: Router;
+    invalidPathRouter: Router;
 
     constructor(){
         this.router = Router();
+        this.invalidPathRouter = Router();
     }
-
 
     configureRoutes(): Router {
 
+        //check body parameters keys convert them to lowercase
         this.router.use('/', authMiddleware.checkRequestKeys);
 
-        this.router.post('/user/login', userValidator.loginUser, userController.loginUser, authMiddleware.signToken);
+        //handle user login
+        this.router.route('/user/login')
+            .post(userValidator.loginUser, userController.loginUser, authMiddleware.signToken);
 
+        //handle json web token verification
         this.router.use('/', authMiddleware.verifyToken);
 
         //User routes
@@ -26,14 +30,12 @@ export class RoutesHandler{
             .delete(userValidator.deleteUser, userController.deleteUser)
             .put(userValidator.updateUser, userController.updateUser);
 
-
         //Technology routes
         this.router.route('/technology')
             .get(technologyController.getTechnology)
             .post(technologyValidator.postAndUpdateTechnology, technologyController.postTechnology)
             .delete(technologyValidator.deleteTechnology, technologyController.deleteTechnology)
             .put(technologyValidator.postAndUpdateTechnology, technologyController.updateTechnology);
-
 
         //Feedback routes
         this.router.route('/feedback')
@@ -55,7 +57,15 @@ export class RoutesHandler{
         this.router.route('/technology/feedback')
             .post(feedbackValidator.postTechnologyFeedback, feedbackController.postTechnologyFeedback);
 
+        //handle invalid routes after /api/v1
+        this.router.use('/', authMiddleware.handleInvalidRoutes);
 
         return this.router;
+    }
+
+    configureInvalidRoutes(): Router{
+        //handles unknown routes
+        this.invalidPathRouter.use('/', authMiddleware.handleInvalidRoutes);
+        return this.invalidPathRouter;
     }
 }
