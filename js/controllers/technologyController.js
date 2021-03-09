@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the controllers for all the technology related
+    actions and interacts with technology's services
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../services/index");
 const index_2 = require("../utils/index");
 class TechnologyController {
+    //handles get technology requests
     getTechnology(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -44,6 +49,7 @@ class TechnologyController {
             }
         });
     }
+    //handles post technology requests
     postTechnology(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -76,6 +82,7 @@ class TechnologyController {
             }
         });
     }
+    //handles update technology requests
     updateTechnology(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -105,6 +112,7 @@ class TechnologyController {
             }
         });
     }
+    //handles delete technology requests
     deleteTechnology(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

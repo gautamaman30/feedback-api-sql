@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the services for all the technology related
+    actions and interacts with database
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../models/index");
 const index_2 = require("../utils/index");
 class TechnologyService {
+    //get all technologies from the database
     getAllTechnologies() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -27,6 +32,7 @@ class TechnologyService {
             }
         });
     }
+    //updates technology name and details
     editTechnology(technology_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -47,6 +53,7 @@ class TechnologyService {
             }
         });
     }
+    //removes the technology from database matching given name
     removeTechnology(technology_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -65,6 +72,7 @@ class TechnologyService {
             }
         });
     }
+    //finds if technology exists with given the key and value
     checkTechnologyExist(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -85,6 +93,7 @@ class TechnologyService {
             }
         });
     }
+    //adds a new technology with all the given technology information
     addTechnology(technology_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

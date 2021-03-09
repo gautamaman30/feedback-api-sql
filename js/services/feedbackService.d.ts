@@ -1,6 +1,7 @@
 export default class FeedbackService {
     getAllFeedbacks(): Promise<any>;
     getFeedbacks(feedback_info: any): Promise<any>;
+    getFeedbacksByEmailSorted(filter: any, sort?: any): Promise<any>;
     getFeedbacksFilteredAndSorted(filter?: any, sort?: any): Promise<any>;
     editFeedbackStatus(feedback_info: {
         feedback_id: string;

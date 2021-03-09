@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles all the routes for the application,
+    pass the control to middlewares and controllers
+*/
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoutesHandler = void 0;
 const express_1 = require("express");
@@ -13,8 +17,7 @@ class RoutesHandler {
         //check body parameters keys convert them to lowercase
         this.router.use('/', index_1.authMiddleware.checkRequestKeys);
         //handle user login
-        this.router.route('/user/login')
-            .post(index_1.userValidator.loginUser, index_2.userController.loginUser, index_1.authMiddleware.signToken);
+        this.router.post('/user/login', index_1.userValidator.loginUser, index_2.userController.loginUser, index_1.authMiddleware.signToken);
         //handle json web token verification
         this.router.use('/', index_1.authMiddleware.verifyToken);
         //User routes
@@ -38,11 +41,20 @@ class RoutesHandler {
         this.router.put('/feedback/status', index_1.feedbackValidator.updateFeedbackStatus, index_2.feedbackController.updateFeedbackStatus);
         //add user count for a feedback
         this.router.put('/feedback/count', index_1.feedbackValidator.updateFeedbackCount, index_2.feedbackController.updateFeedbackCount);
-        //post feedback for a user
+        /*
+            post feedback for a user,
+            get feedbacks posted by user email
+            and get feedbacks for a user by email
+        */
         this.router.route('/user/feedback')
+            .get(index_1.feedbackValidator.getUserFeedbacks, index_2.feedbackController.getUserFeedbacks)
             .post(index_1.feedbackValidator.postUserFeedback, index_2.feedbackController.postUserFeedback);
-        //post feedback for a technology
+        /*
+            post feedback for a technology
+            and get feedbacks for a technology by name
+        */
         this.router.route('/technology/feedback')
+            .get(index_1.feedbackValidator.getTechnologyrFeedbacks, index_2.feedbackController.getTechnologyrFeedbacks)
             .post(index_1.feedbackValidator.postTechnologyFeedback, index_2.feedbackController.postTechnologyFeedback);
         //handle invalid routes after /api/v1
         this.router.use('/', index_1.authMiddleware.handleInvalidRoutes);

@@ -3,11 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+    this file checks server mode (development, staging and production)
+    and loads the environment file depending on the server mode
+*/
 const path_1 = require("path");
 const dotenv_1 = __importDefault(require("dotenv"));
+//loading .env file
 dotenv_1.default.config({
     path: path_1.join(process.cwd(), `${process.env.NODE_ENV}.env`)
 });
+//object storing environment variables
 const configObj = {
     HOST: process.env.HOST,
     PORT: process.env.PORT,

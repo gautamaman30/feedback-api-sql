@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the services for all the user related
+    actions and interacts with database
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../models/index");
 const index_2 = require("../utils/index");
 class UserService {
+    //get all users
     getAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -27,6 +32,7 @@ class UserService {
             }
         });
     }
+    //get all users with given key and value query
     getUsers(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -47,6 +53,7 @@ class UserService {
             }
         });
     }
+    //removes user matching the given user email
     removeUser(user_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -65,6 +72,7 @@ class UserService {
             }
         });
     }
+    //finds if a user exists with the given key and value
     checkUserExist(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -85,6 +93,7 @@ class UserService {
             }
         });
     }
+    //finds if the admin exists with the given key and value
     checkAdminExist(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -108,6 +117,7 @@ class UserService {
             }
         });
     }
+    //adds a new user to the database given all the details about the user
     addUser(user_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -144,6 +154,7 @@ class UserService {
             }
         });
     }
+    //updates user's password, title and date of birth
     editUser(user_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

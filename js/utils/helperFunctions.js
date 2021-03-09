@@ -1,4 +1,9 @@
 "use strict";
+/*
+    this file contains all the utilities functions,
+    to carry out some specific tasks
+    e.g. generating random passwords
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,6 +21,7 @@ exports.HelperFunctions = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const errorsUtils_1 = require("./errorsUtils");
 class HelperFunctions {
+    //generates random password of length 8
     generateRandomPassword() {
         const str = "0123456789";
         let password = '';
@@ -25,6 +31,7 @@ class HelperFunctions {
         }
         return password;
     }
+    //converts a password and generates a hash, using bcrypt library
     hashPassword(password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -40,6 +47,7 @@ class HelperFunctions {
             }
         });
     }
+    //compares a normal and a hashed password, using bcrypt library
     comparePassword(password, hashedPassword) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -57,12 +65,14 @@ class HelperFunctions {
             }
         });
     }
+    //converts a string or an array of strings to capitalCase
     capitalizeString(item) {
         if (typeof item === "string") {
             return item[0].toUpperCase + item.substring(1);
         }
         return item.map(i => i[0].toUpperCase() + i.substring(1));
     }
+    //covnerts an array into a set
     convertArrayToSet(arr) {
         let set = new Set();
         for (let i of arr) {
@@ -70,6 +80,7 @@ class HelperFunctions {
         }
         return set;
     }
+    //generates random id of size 10
     generateId() {
         const str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@";
         let id = '';
@@ -79,6 +90,10 @@ class HelperFunctions {
         }
         return id;
     }
+    /*
+        converts string to date format accepted date format is "mm/dd/yyyy"
+        with current year greater than 18 years than yyyy
+    */
     convertStringToDate(date) {
         let currentYear = (new Date()).getFullYear();
         let month_date = { 1: 31, 2: 28 | 29, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31 };
@@ -92,9 +107,11 @@ class HelperFunctions {
             return null;
         return new Date(parseInt(year), parseInt(month), parseInt(day));
     }
+    //converts a date to date with format "yyyy-mm-dd"
     getFormatedDate(date) {
         return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
     }
+    //removes sensitive data like password and _id 
     removeSensitiveData(data) {
         if (data) {
             if (Array.isArray(data)) {

@@ -1,4 +1,7 @@
 "use strict";
+/*
+    this file export Errors messages
+*/
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Errors = void 0;
 exports.Errors = {
@@ -36,5 +39,5 @@ exports.Errors = {
     INVALID_DATE: "Invalid date",
     AUTHORIZATION_FAILED: "Authorization failed",
     DATABASE_CONNECTION_FAILED: "Database connection failed, retry",
-    URL_NOT_FOUND: "Invalid route path"
+    URL_NOT_FOUND: "Invalid path, url not found"
 };

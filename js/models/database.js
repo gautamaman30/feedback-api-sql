@@ -1,4 +1,9 @@
 "use strict";
+/*
+    this file interacts with database using typeorm library
+    ( postgresql as database)
+    and performs queries
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -15,6 +20,7 @@ const user_1 = require("./user");
 const technology_1 = require("./technology");
 const feedback_1 = require("./feedback");
 class Database {
+    //finds first user matching the given query
     findUser(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -28,6 +34,7 @@ class Database {
             }
         });
     }
+    //finds all users matching the given query
     findUsers(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -41,6 +48,7 @@ class Database {
             }
         });
     }
+    //finds all technologies matching the given query
     findTechnologies(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -54,6 +62,7 @@ class Database {
             }
         });
     }
+    //finds first technology matching the given query
     findTechnology(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -67,6 +76,7 @@ class Database {
             }
         });
     }
+    //finds first feedback matching the given query
     findFeedback(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -80,6 +90,7 @@ class Database {
             }
         });
     }
+    //finds all feedbacks matching the given query
     findFeedbacks(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -93,6 +104,7 @@ class Database {
             }
         });
     }
+    //finds all feedbacks matching the given query in descending order
     findFeedbacksSorted(query, sortField) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -119,6 +131,7 @@ class Database {
             }
         });
     }
+    //updates all users matching the given filter
     updateUser(filter, update) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -132,6 +145,7 @@ class Database {
             }
         });
     }
+    //updates all technologies matching the given filter
     updateTechnology(filter, update) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -145,6 +159,7 @@ class Database {
             }
         });
     }
+    //updates all feedbacks matching the given filter
     updateFeedback(filter, update) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -158,6 +173,7 @@ class Database {
             }
         });
     }
+    //updates feedback count matching the given filter
     updateFeedbackCount(filter, update) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -175,6 +191,7 @@ class Database {
             }
         });
     }
+    //inserts new user with given user information
     insertUser(user_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -188,6 +205,7 @@ class Database {
             }
         });
     }
+    //inserts new technology with given technology information
     insertTechnology(technology_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -201,6 +219,7 @@ class Database {
             }
         });
     }
+    //inserts new feedback with given feedback information
     insertFeedback(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -214,6 +233,7 @@ class Database {
             }
         });
     }
+    //deletes user matching the given query
     deleteUser(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -227,6 +247,7 @@ class Database {
             }
         });
     }
+    //deletes technology matching the given query
     deleteTechnology(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -240,6 +261,7 @@ class Database {
             }
         });
     }
+    //deletes feedback matching the given query
     deleteFeedback(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

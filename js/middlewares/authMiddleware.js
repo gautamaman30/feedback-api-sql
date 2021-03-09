@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the authentication middleware ( signing
+    and verifying json web tokens )
+*/
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,6 +12,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const index_1 = require("../utils/index");
 const config_1 = __importDefault(require("../config"));
 class AuthMiddleware {
+    //sign a new token and send the response, using jsonwebtoken library
     signToken(req, res, next) {
         const signOptions = {
             issuer: config_1.default.JWT_TOKEN_ISSUER,
@@ -28,6 +33,10 @@ class AuthMiddleware {
             }
         });
     }
+    /*
+        verify the json web token and calls the controller functions,
+        using jsonwebtoken library
+    */
     verifyToken(req, res, next) {
         let token;
         if (req.headers.authorization) {
@@ -45,6 +54,7 @@ class AuthMiddleware {
             }
         });
     }
+    //converts all the body parameter keys to lowercase
     checkRequestKeys(req, res, next) {
         let body = req.body;
         for (let key in body) {
@@ -52,6 +62,7 @@ class AuthMiddleware {
         }
         return next();
     }
+    //sends a response for all the invalid routes
     handleInvalidRoutes(req, res, Response) {
         console.log(req.path);
         res.status(400);

@@ -1,9 +1,15 @@
 "use strict";
+/*
+    this file handles the validation for all
+    user related requests,
+    using yup library
+*/
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserValidator = void 0;
 const index_1 = require("../utils/index");
 const yup_1 = require("yup");
 class UserValidator {
+    //validates delete user requests
     deleteUser(req, res, next) {
         let userSchema = yup_1.object({
             email: yup_1.string().email().required().trim().max(100)
@@ -22,6 +28,7 @@ class UserValidator {
             res.send({ error });
         });
     }
+    //validates user login requests
     loginUser(req, res, next) {
         let userSchema = yup_1.object({
             email: yup_1.string().email().required().trim().max(100),
@@ -43,6 +50,7 @@ class UserValidator {
             res.send({ error });
         });
     }
+    //validates post user requests
     postUser(req, res, next) {
         let userSchema = yup_1.object({
             name: yup_1.string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/),
@@ -70,6 +78,7 @@ class UserValidator {
             res.send({ error });
         });
     }
+    //validates update user requests
     updateUser(req, res, next) {
         let userSchema = yup_1.object({
             password: yup_1.string().trim().min(8).max(100).matches(/^[a-zA-Z0-9!@#$%&*]+$/),

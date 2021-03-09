@@ -1,9 +1,15 @@
 "use strict";
+/*
+    this file handles the validation for all
+    technology related requests,
+    using yup library
+*/
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TechnologyValidator = void 0;
 const yup_1 = require("yup");
 const index_1 = require("../utils/index");
 class TechnologyValidator {
+    //validates post and update technology requests
     postAndUpdateTechnology(req, res, next) {
         let technologySchema = yup_1.object({
             name: yup_1.string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/),
@@ -25,6 +31,7 @@ class TechnologyValidator {
             res.send({ error });
         });
     }
+    //validates delete technology requests
     deleteTechnology(req, res, next) {
         let technologySchema = yup_1.object({
             name: yup_1.string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/)

@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the controllers for all the user related
+    actions and interacts with user's services
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../services/index");
 const index_2 = require("../utils/index");
 class UserController {
+    //handles get user requests
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -50,6 +55,7 @@ class UserController {
             }
         });
     }
+    //handles post user requests
     postUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -90,6 +96,7 @@ class UserController {
             }
         });
     }
+    //handles user login requests
     loginUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -122,6 +129,7 @@ class UserController {
             }
         });
     }
+    //handles delete user requests
     deleteUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -152,6 +160,7 @@ class UserController {
             }
         });
     }
+    //handles update user requests
     updateUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

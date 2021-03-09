@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the controllers for all the feedback related
+    actions and interacts with feedback's services
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../services/index");
 const index_2 = require("../utils/index");
 class FeedbackController {
+    //handles get feedbacks requests
     getFeedbacks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -54,6 +59,96 @@ class FeedbackController {
             }
         });
     }
+    //handles get user feedbacks requests
+    getUserFeedbacks(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user_id = req.body.user_id;
+                const posted_by = req.query.posted_by;
+                const email = req.query.email;
+                const sort = req.query.sort;
+                let feedbacks;
+                if (posted_by) {
+                    if (sort) {
+                        feedbacks: any = yield index_1.feedbackService.getFeedbacksByEmailSorted({ posted_by }, sort);
+                    }
+                    else {
+                        feedbacks: any = yield index_1.feedbackService.getFeedbacks({ posted_by });
+                    }
+                }
+                else if (email) {
+                    if (sort) {
+                        feedbacks: any = yield index_1.feedbackService.getFeedbacksByEmailSorted({ entity_id: email }, sort);
+                    }
+                    else {
+                        feedbacks: any = yield index_1.feedbackService.getFeedbacks({ entity_id: email });
+                    }
+                }
+                else {
+                    feedbacks = yield index_1.feedbackService.getAllFeedbacks();
+                }
+                if (feedbacks.error) {
+                    throw new Error(feedbacks.error);
+                }
+                let user = yield index_1.userService.checkUserExist("user_id", user_id);
+                if (user.error) {
+                    throw new Error(user.error);
+                }
+                if (user.roles !== "admin") {
+                    feedbacks = index_1.feedbackService.filterFeedback(feedbacks, "status", ["approved"]);
+                }
+                feedbacks = index_2.helperFunctions.removeSensitiveData(feedbacks);
+                res.status(200);
+                res.send({ feedbacks });
+            }
+            catch (e) {
+                console.log(e.message);
+                res.status(400);
+                res.send({ error: e.message });
+            }
+        });
+    }
+    //handles get technology feedbacks requests
+    getTechnologyFeedbacks(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user_id = req.body.user_id;
+                const name = req.query.name;
+                const sort = req.query.sort;
+                let feedbacks;
+                if (name) {
+                    if (sort) {
+                        feedbacks: any = yield index_1.feedbackService.getFeedbacksByNameSorted({ name, entity: 'technology' }, sort);
+                    }
+                    else {
+                        feedbacks: any = yield index_1.feedbackService.getFeedbacks({ name, entity: 'technology' });
+                    }
+                }
+                else {
+                    feedbacks = yield index_1.feedbackService.getAllFeedbacks();
+                }
+                if (feedbacks.error) {
+                    throw new Error(feedbacks.error);
+                }
+                let user = yield index_1.userService.checkUserExist("user_id", user_id);
+                if (user.error) {
+                    throw new Error(user.error);
+                }
+                if (user.roles !== "admin") {
+                    feedbacks = index_1.feedbackService.filterFeedback(feedbacks, "status", ["approved"]);
+                }
+                feedbacks = index_2.helperFunctions.removeSensitiveData(feedbacks);
+                res.status(200);
+                res.send({ feedbacks });
+            }
+            catch (e) {
+                console.log(e.message);
+                res.status(400);
+                res.send({ error: e.message });
+            }
+        });
+    }
+    //handles post user feedbacks requests
     postUserFeedback(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -68,7 +163,7 @@ class FeedbackController {
                 if (user.roles === "admin") {
                     throw new Error(index_2.Errors.ADMIN_POST_FEEDBACK);
                 }
-                let feedback_info = { name, feedback, posted_by: user.email, entity: 'user' };
+                let feedback_info = { name, feedback, posted_by: user.email, entity: 'user', entity_id: user.email };
                 const check_user = yield index_1.userService.checkUserExist("email", email);
                 if (check_user.error) {
                     throw new Error(check_user.error);
@@ -76,7 +171,6 @@ class FeedbackController {
                 if (check_user.user_id === user_id) {
                     throw new Error(index_2.Errors.USER_POST_OWN_FEEDBACK);
                 }
-                feedback_info.entity_id = check_user.user_id;
                 const result = yield index_1.feedbackService.addFeedback(feedback_info);
                 if (result.error) {
                     throw new Error(result.error);
@@ -91,6 +185,7 @@ class FeedbackController {
             }
         });
     }
+    //handles post technology feedbacks requests
     postTechnologyFeedback(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -104,12 +199,11 @@ class FeedbackController {
                 if (user.roles === "admin") {
                     throw new Error(index_2.Errors.ADMIN_POST_FEEDBACK);
                 }
-                let feedback_info = { name, feedback, posted_by: user.email, entity: 'technology' };
+                let feedback_info = { name, feedback, posted_by: user.email, entity: 'technology', entity_id: name };
                 const technology = yield index_1.technologyService.checkTechnologyExist("name", name);
                 if (technology.error) {
                     throw new Error(technology.error);
                 }
-                feedback_info.entity_id = technology.technology_id;
                 const result = yield index_1.feedbackService.addFeedback(feedback_info);
                 if (result.error) {
                     throw new Error(result.error);
@@ -124,6 +218,7 @@ class FeedbackController {
             }
         });
     }
+    //handles update feedbacks requests
     updateFeedback(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -158,6 +253,7 @@ class FeedbackController {
             }
         });
     }
+    //handles update feedbacks status requests
     updateFeedbackStatus(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -183,6 +279,7 @@ class FeedbackController {
             }
         });
     }
+    //handles update feedbacks count requests
     updateFeedbackCount(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -218,6 +315,7 @@ class FeedbackController {
             }
         });
     }
+    //handles delete feedbacks requests
     deleteFeedback(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

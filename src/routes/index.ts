@@ -22,8 +22,7 @@ export class RoutesHandler{
         this.router.use('/', authMiddleware.checkRequestKeys);
 
         //handle user login
-        this.router.route('/user/login')
-            .post(userValidator.loginUser, userController.loginUser, authMiddleware.signToken);
+        this.router.post('/user/login', userValidator.loginUser, userController.loginUser, authMiddleware.signToken);
 
         //handle json web token verification
         this.router.use('/', authMiddleware.verifyToken);
@@ -54,12 +53,21 @@ export class RoutesHandler{
         //add user count for a feedback
         this.router.put('/feedback/count', feedbackValidator.updateFeedbackCount, feedbackController.updateFeedbackCount);
 
-        //post feedback for a user
+        /*
+            post feedback for a user,
+            get feedbacks posted by user email
+            and get feedbacks for a user by email
+        */
         this.router.route('/user/feedback')
+            .get(feedbackValidator.getUserFeedbacks, feedbackController.getUserFeedbacks)
             .post(feedbackValidator.postUserFeedback, feedbackController.postUserFeedback);
 
-        //post feedback for a technology
+        /*
+            post feedback for a technology
+            and get feedbacks for a technology by name
+        */
         this.router.route('/technology/feedback')
+            .get(feedbackValidator.getTechnologyrFeedbacks, feedbackController.getTechnologyrFeedbacks)
             .post(feedbackValidator.postTechnologyFeedback, feedbackController.postTechnologyFeedback);
 
         //handle invalid routes after /api/v1

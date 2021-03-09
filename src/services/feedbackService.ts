@@ -37,6 +37,30 @@ export default class FeedbackService{
         }
     }
 
+    //get all feedbacks with given email query and sorted
+    async getFeedbacksByEmailSorted(filter, sort?){
+        try{
+            if(sort === "date") {
+                sort = "created_on";
+            }
+
+            if(sort) {
+                result = await database.findFeedbacksSorted(filter, sort);
+            }
+            else {
+                result = await database.findFeedbacks(filter);
+            }
+
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            console.log(err);
+            return {error: Errors.INTERNAL_ERROR};
+        }
+    }
+
     /*
         get all feedbacks with given query/filter and
         sort them according to given sort field
@@ -199,7 +223,7 @@ export default class FeedbackService{
         }
     }
 
-    //filter an array according to a key and set of values 
+    //filter an array according to a key and set of values
     filterFeedback(feedback_array: Array<any>, key: string, values: string[]) {
         let set = helperFunctions.convertArrayToSet(values);
         return feedback_array.filter((item) => item[key] && set.has(item[key])? true: false);

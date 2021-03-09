@@ -1,4 +1,8 @@
 "use strict";
+/*
+    this file handles the services for all the feedback related
+    actions and interacts with database
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../models/index");
 const index_2 = require("../utils/index");
 class FeedbackService {
+    //get all the feedbacks
     getAllFeedbacks() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -27,6 +32,7 @@ class FeedbackService {
             }
         });
     }
+    //get all feedbacks with given query/filter
     getFeedbacks(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -42,6 +48,34 @@ class FeedbackService {
             }
         });
     }
+    //get all feedbacks with given email query and sorted
+    getFeedbacksByEmailSorted(filter, sort) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (sort === "date") {
+                    sort = "created_on";
+                }
+                if (sort) {
+                    result = yield index_1.database.findFeedbacksSorted(filter, sort);
+                }
+                else {
+                    result = yield index_1.database.findFeedbacks(filter);
+                }
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                console.log(err);
+                return { error: index_2.Errors.INTERNAL_ERROR };
+            }
+        });
+    }
+    /*
+        get all feedbacks with given query/filter and
+        sort them according to given sort field
+    */
     getFeedbacksFilteredAndSorted(filter, sort) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -75,6 +109,7 @@ class FeedbackService {
             }
         });
     }
+    //updates the feedback status given feedback id and status
     editFeedbackStatus(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -93,6 +128,7 @@ class FeedbackService {
             }
         });
     }
+    //updates feedback count given feedback id and name of user adding the count(count_users)
     editFeedbackCount(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -111,6 +147,7 @@ class FeedbackService {
             }
         });
     }
+    //updates feedback content
     editFeedback(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -129,6 +166,7 @@ class FeedbackService {
             }
         });
     }
+    //deletes the feedback matching the given feedback id
     removeFeedback(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -147,6 +185,7 @@ class FeedbackService {
             }
         });
     }
+    //finds if the feedback exists given the key and value
     checkFeedbackExist(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -167,6 +206,7 @@ class FeedbackService {
             }
         });
     }
+    //creates a new feedback with all the given feedback information
     addFeedback(feedback_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -194,6 +234,7 @@ class FeedbackService {
             }
         });
     }
+    //filter an array according to a key and set of values
     filterFeedback(feedback_array, key, values) {
         let set = index_2.helperFunctions.convertArrayToSet(values);
         return feedback_array.filter((item) => item[key] && set.has(item[key]) ? true : false);
