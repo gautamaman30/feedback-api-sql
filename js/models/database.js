@@ -137,6 +137,8 @@ class Database {
             try {
                 const result = yield typeorm_1.getRepository(user_1.Users)
                     .update(filter, update);
+                console.log(1);
+                console.log(result);
                 return result;
             }
             catch (e) {
@@ -197,6 +199,8 @@ class Database {
             try {
                 const result = yield typeorm_1.getRepository(user_1.Users)
                     .insert(user_info);
+                console.log(2);
+                console.log(result);
                 return result;
             }
             catch (e) {
@@ -239,6 +243,8 @@ class Database {
             try {
                 const result = yield typeorm_1.getRepository(user_1.Users)
                     .delete(query);
+                console.log(3);
+                console.log(result);
                 return result;
             }
             catch (e) {

@@ -55,11 +55,9 @@ export default class UserService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.deletedCount !== 1){
+            if(result.affected !== 1){
                 throw new Error(Errors.USER_NOT_FOUND);
             }
-            */
             return {message: Messages.USER_DELETED};
         } catch(err) {
             console.log(err);
@@ -142,7 +140,7 @@ export default class UserService{
             }
             const result: any = await database.insertUser(user);
 
-            if(result.error || result.insertedCount < 1){
+            if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             user.password = password;
@@ -176,7 +174,7 @@ export default class UserService{
             let filter = {email: user_info.email};
             const result: any = await database.updateUser(filter, update);
 
-            if(result.error || result.insertedCount < 1){
+            if(result.error || result.affected < 1){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
 

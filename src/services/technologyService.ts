@@ -38,11 +38,9 @@ export default class TechnologyService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.matchedCount < 1){
+            if(result.affected < 1){
                 throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
             }
-            */
             return {message: Messages.TECHNOLOGY_UPDATED};
         } catch(err) {
             console.log(err);
@@ -59,11 +57,9 @@ export default class TechnologyService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.deletedCount !== 1){
+            if(result.affected !== 1){
                 throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
             }
-            */
             return {message: Messages.TECHNOLOGY_DELETED};
         } catch(err) {
             console.log(err);
@@ -104,7 +100,7 @@ export default class TechnologyService{
 
             const result: any = await database.insertTechnology(technology);
 
-            if(result.error || result.insertedCount < 1){
+            if(result.error || result.affected < 1){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
 

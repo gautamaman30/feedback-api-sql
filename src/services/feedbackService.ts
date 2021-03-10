@@ -109,11 +109,9 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.matchedCount < 1){
+            if(result.affected < 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
-            */
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
             console.log(err);
@@ -130,11 +128,9 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.matchedCount < 1){
+            if(result.affected < 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
-            */
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
             console.log(err);
@@ -150,11 +146,9 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.matchedCount < 1){
+            if(result.affected < 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
-            */
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
             console.log(err);
@@ -171,11 +165,9 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
-            /*
-            if(result.deletedCount !== 1){
+            if(result.affected !== 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
-            */
             return {message: Messages.FEEDBACK_DELETED};
         } catch(err) {
             console.log(err);
