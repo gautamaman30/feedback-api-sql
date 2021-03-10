@@ -19,7 +19,6 @@ class AuthMiddleware {
             expiresIn: config_1.default.JWT_TOKEN_EXPIRES_IN,
             algorithm: config_1.default.JWT_TOKEN_ALGORITHM
         };
-        const key = config_1.default.SECRET_KEY;
         let payload = JSON.parse(res.get("payload"));
         jsonwebtoken_1.default.sign(payload, config_1.default.SECRET_KEY, signOptions, function (err, token) {
             if (err) {

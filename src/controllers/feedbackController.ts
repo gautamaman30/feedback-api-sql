@@ -21,7 +21,7 @@ export default class FeedbackController{
             let feedbacks: any = [];
 
             if(feedback_id) {
-                const feedback: any = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
+                const feedback = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
                 if(feedback.error) {
                     throw new Error(feedback.error);
                 }
@@ -36,7 +36,7 @@ export default class FeedbackController{
                 throw new Error(feedbacks.error);
             }
 
-            let user: any = await userService.checkUserExist("user_id", user_id);
+            let user = await userService.checkUserExist("user_id", user_id);
             if(user.error){
                 throw new Error(user.error);
             }
@@ -86,7 +86,7 @@ export default class FeedbackController{
                 throw new Error(feedbacks.error);
             }
 
-            let user: any = await userService.checkUserExist("user_id", user_id);
+            let user = await userService.checkUserExist("user_id", user_id);
             if(user.error){
                 throw new Error(user.error);
             }
@@ -156,7 +156,7 @@ export default class FeedbackController{
             const email: string = req.body.email;
             let name: string = req.body.name;
 
-            const user: any = await userService.checkUserExist("user_id", user_id);
+            const user = await userService.checkUserExist("user_id", user_id);
             if(user.error) {
                 throw new Error(user.error);
             }
@@ -164,9 +164,9 @@ export default class FeedbackController{
                 throw new Error(Errors.ADMIN_POST_FEEDBACK);
             }
 
-            let feedback_info: any = {name, feedback, posted_by: user.email, entity: 'user', entity_id: user.email};
+            let feedback_info = {name, feedback, posted_by: <string>user.email, entity: <'user' | 'technology'>'user', entity_id: user.email};
 
-            const check_user: any = await userService.checkUserExist("email", email);
+            const check_user = await userService.checkUserExist("email", email);
             if(check_user.error){
                 throw new Error(check_user.error);
             }
@@ -174,7 +174,7 @@ export default class FeedbackController{
                 throw new Error(Errors.USER_POST_OWN_FEEDBACK)
             }
 
-            const result: any = await feedbackService.addFeedback(feedback_info);
+            const result = await feedbackService.addFeedback(feedback_info);
             if(result.error) {
                  throw new Error(result.error);
             }
@@ -203,14 +203,14 @@ export default class FeedbackController{
                 throw new Error(Errors.ADMIN_POST_FEEDBACK);
             }
 
-            let feedback_info: any = {name, feedback, posted_by: user.email, entity: 'technology', entity_id: name};
+            let feedback_info = {name, feedback, posted_by: user.email, entity: <'technology' | 'user'>'technology', entity_id: name};
 
-            const technology: any = await technologyService.checkTechnologyExist("name", name);
+            const technology = await technologyService.checkTechnologyExist("name", name);
             if(technology.error) {
                 throw new Error(technology.error);
             }
 
-            const result: any = await feedbackService.addFeedback(feedback_info);
+            const result = await feedbackService.addFeedback(feedback_info);
             if(result.error) {
                  throw new Error(result.error);
             }
@@ -231,7 +231,7 @@ export default class FeedbackController{
             const feedback_id: string = req.body.feedback_id;
             const feedback: string = req.body.feedback;
 
-            const user: any = await userService.checkUserExist("user_id", user_id);
+            const user = await userService.checkUserExist("user_id", user_id);
             if(user.error) {
                 throw new Error(user.error);
             }
@@ -239,7 +239,7 @@ export default class FeedbackController{
                 throw new Error(Errors.ADMIN_EDIT_FEEDBACK);
             }
 
-            const check_feedback: any = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
+            const check_feedback = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
             if(check_feedback.error) {
                 throw new Error(check_feedback.error);
             }
@@ -247,7 +247,7 @@ export default class FeedbackController{
                 throw new Error(Errors.USER_EDIT_OTHERS_FEEDBACK);
             }
 
-            const result: any = await feedbackService.editFeedback({feedback_id, feedback});
+            const result = await feedbackService.editFeedback({feedback_id, feedback});
             if(result.error) {
                 throw new Error(result.error);
             }
@@ -266,15 +266,17 @@ export default class FeedbackController{
         try{
             const admin_id: string = req.body.user_id;
             const feedback_id: string = req.body.feedback_id;
-            let status: any = req.body.status;
+            let feedback_status: string = req.body.status;
 
-            const admin: any = await userService.checkAdminExist("user_id", admin_id);
+            const admin = await userService.checkAdminExist("user_id", admin_id);
             if(admin.error){
                 throw new Error(admin.error);
             }
 
-            status = status.toLowerCase();
-            const feedback: any = await feedbackService.editFeedbackStatus({feedback_id, status});
+            feedback_status = feedback_status.toLowerCase();
+            let status = <'approved' | 'rejected'>feedback_status;
+
+            const feedback = await feedbackService.editFeedbackStatus({feedback_id, status});
             if(feedback.error) {
                 throw new Error(feedback.error);
             }
@@ -294,8 +296,7 @@ export default class FeedbackController{
             const user_id: string = req.body.user_id;
             const feedback_id: string = req.body.feedback_id;
 
-
-            const user: any = await userService.checkUserExist("user_id", user_id);
+            const user = await userService.checkUserExist("user_id", user_id);
             if(user.error) {
                 throw new Error(user.error);
             }
@@ -303,7 +304,7 @@ export default class FeedbackController{
                 throw new Error(Errors.ADMIN_EDIT_FEEDBACK);
             }
 
-            const feedback: any = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
+            const feedback = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
             if(feedback.error) {
                 throw new Error(feedback.error);
             }
@@ -313,7 +314,7 @@ export default class FeedbackController{
                 }
             }
 
-            const result: any = await feedbackService.editFeedbackCount({feedback_id, count_users: user.name});
+            const result = await feedbackService.editFeedbackCount({feedback_id, count_users: user.name});
             if(feedback.error) {
                 throw new Error(feedback.error);
             }
@@ -333,17 +334,17 @@ export default class FeedbackController{
             const admin_id: string = req.body.user_id;
             const feedback_id: string = req.body.feedback_id;
 
-            const admin: any = await userService.checkAdminExist("user_id", admin_id);
+            const admin = await userService.checkAdminExist("user_id", admin_id);
             if(admin.error) {
                 throw new Error(admin.error);
             }
 
-            const feedback: any = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
+            const feedback = await feedbackService.checkFeedbackExist("feedback_id", feedback_id);
             if(feedback.error) {
                 throw new Error(feedback.error);
             }
 
-            const result: any = await feedbackService.removeFeedback({feedback_id});
+            const result = await feedbackService.removeFeedback({feedback_id});
             if(result.error) {
                 throw new Error(result.error);
             }

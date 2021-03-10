@@ -1,6 +1,10 @@
 export default class UserService {
-    getAllUsers(): Promise<any>;
-    getUsers(key: string, value: any): Promise<any>;
+    getAllUsers(): Promise<import("../models/user").Users[] | {
+        error: any;
+    }>;
+    getUsers(key: string, value: any): Promise<import("../models/user").Users[] | {
+        error: any;
+    }>;
     removeUser(user_info: {
         email: string;
     }): Promise<{

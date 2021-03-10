@@ -12,12 +12,12 @@ import { Feedback } from "./feedback"
 export class ConnectDb{
 
     private type: any;
-    private host: any;
-    private port: any;
-    private username: any;
-    private password: any;
-    private database: any;
-    private entities: any;
+    private host: string;
+    private port: number;
+    private username: string;
+    private password: string;
+    private database: string;
+    private entities: Array<any>;
 
     constructor({type, host, port, username, password, database}){
         this.type = type;

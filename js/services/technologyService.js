@@ -21,7 +21,7 @@ class TechnologyService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield index_1.database.findTechnologies({});
-                if (result.error) {
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -36,15 +36,21 @@ class TechnologyService {
     editTechnology(technology_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let filter = { name: technology_info.name };
-                let updateDoc = { details: technology_info.details };
+                let filter = {
+                    name: technology_info.name
+                };
+                let updateDoc = {
+                    details: technology_info.details
+                };
                 const result = yield index_1.database.updateTechnology(filter, updateDoc);
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.matchedCount < 1) {
-                    throw new Error(index_2.Errors.TECHNOLOGY_NOT_FOUND);
+                /*
+                if(result.matchedCount < 1){
+                    throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.TECHNOLOGY_UPDATED };
             }
             catch (err) {
@@ -61,9 +67,11 @@ class TechnologyService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.deletedCount !== 1) {
-                    throw new Error(index_2.Errors.TECHNOLOGY_NOT_FOUND);
+                /*
+                if(result.deletedCount !== 1){
+                    throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.TECHNOLOGY_DELETED };
             }
             catch (err) {
@@ -97,11 +105,9 @@ class TechnologyService {
     addTechnology(technology_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let technology;
-                technology = {
-                    technology_id: index_2.helperFunctions.generateId(),
-                    name: technology_info.name,
-                };
+                let technology = {};
+                technology.technology_id = index_2.helperFunctions.generateId();
+                technology.name = technology_info.name;
                 if (technology_info.details)
                     technology.details = technology_info.details;
                 const result = yield index_1.database.insertTechnology(technology);

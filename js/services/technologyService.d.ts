@@ -1,5 +1,7 @@
 export default class TechnologyService {
-    getAllTechnologies(): Promise<any>;
+    getAllTechnologies(): Promise<import("../models/technology").Technology[] | {
+        error: any;
+    }>;
     editTechnology(technology_info: {
         name: string;
         details: string;

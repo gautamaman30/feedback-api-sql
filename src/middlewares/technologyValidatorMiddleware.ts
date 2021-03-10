@@ -17,7 +17,7 @@ export class TechnologyValidator{
             details: string().required().trim().min(4).max(100)
         });
 
-        let technology_info: any = {
+        let technology_info = {
             name: req.body.name,
             details: req.body.details
         };
@@ -42,7 +42,7 @@ export class TechnologyValidator{
             name: string().required().lowercase().trim().min(3).max(50).matches(/^[a-z]+$/)
         });
 
-        let technology_info: any = {
+        let technology_info = {
             name: req.body.name
         };
 

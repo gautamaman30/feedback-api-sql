@@ -16,7 +16,7 @@ export class UserValidator{
             email: string().email().required().trim().max(100)
         });
 
-        let user_info: any = {
+        let user_info = {
             email: req.body.email
         };
 
@@ -39,7 +39,7 @@ export class UserValidator{
             password: string().required().trim().min(8).max(100)
         });
 
-        let user_info: any = {
+        let user_info = {
             email: req.body.email,
             password: req.body.password
         };
@@ -66,7 +66,7 @@ export class UserValidator{
             date_of_birth: string().trim().length(10).matches(/^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/, "Date of birth must match with format mm/dd/yyyy")
         });
 
-        let user_info: any = {
+        let user_info = {
             name: req.body.name,
             email: req.body.email,
             title: req.body.title,
@@ -97,7 +97,7 @@ export class UserValidator{
             date_of_birth: string().trim().length(10).matches(/^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/, "Date of birth must match with format mm/dd/yyyy")
         });
 
-        let user_info: any = {
+        let user_info = {
             password: req.body.password,
             title: req.body.title,
             date_of_birth: req.body.date_of_birth

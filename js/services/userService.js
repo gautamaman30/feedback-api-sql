@@ -21,7 +21,7 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let result = yield index_1.database.findUsers({});
-                if (result.error) {
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -42,7 +42,7 @@ class UserService {
                 if (!result) {
                     throw new Error(index_2.Errors.USER_NOT_FOUND);
                 }
-                if (result.error) {
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -61,9 +61,11 @@ class UserService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.deletedCount !== 1) {
-                    throw new Error(index_2.Errors.USER_NOT_FOUND);
+                /*
+                if(result.deletedCount !== 1){
+                    throw new Error(Errors.USER_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.USER_DELETED };
             }
             catch (err) {
@@ -121,7 +123,7 @@ class UserService {
     addUser(user_info) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let user;
+                let user = {};
                 let password = user_info.name + '1234';
                 let hashedPassword = yield index_2.helperFunctions.hashPassword(password);
                 user = {
@@ -170,8 +172,8 @@ class UserService {
                     4;
                     if (!temp_date_of_birth) {
                         throw new Error(index_2.Errors.INVALID_DATE);
-                        update.date_of_birth = index_2.helperFunctions.getFormatedDate(temp_date_of_birth);
                     }
+                    update.date_of_birth = index_2.helperFunctions.getFormatedDate(temp_date_of_birth);
                 }
                 let filter = { email: user_info.email };
                 const result = yield index_1.database.updateUser(filter, update);

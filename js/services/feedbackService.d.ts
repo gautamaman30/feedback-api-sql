@@ -1,11 +1,15 @@
 export default class FeedbackService {
-    getAllFeedbacks(): Promise<any>;
-    getFeedbacks(feedback_info: any): Promise<any>;
+    getAllFeedbacks(): Promise<import("../models/feedback").Feedback[] | {
+        error: any;
+    }>;
+    getFeedbacks(feedback_info: any): Promise<import("../models/feedback").Feedback[] | {
+        error: any;
+    }>;
     getFeedbacksQuerySorted(filter: any, sort?: any): Promise<any>;
     getFeedbacksFilteredAndSorted(filter?: any, sort?: any): Promise<any>;
     editFeedbackStatus(feedback_info: {
         feedback_id: string;
-        status: "approved" | "rejected";
+        status: 'approved' | 'rejected';
     }): Promise<{
         message: string;
         error?: undefined;
@@ -45,8 +49,8 @@ export default class FeedbackService {
     checkFeedbackExist(key: string, value: any): Promise<any>;
     addFeedback(feedback_info: {
         name: string;
-        posted_by: string;
         feedback: string;
+        posted_by: string;
         entity_id: string;
         entity: 'user' | 'technology';
     }): Promise<{

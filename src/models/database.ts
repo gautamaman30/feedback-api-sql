@@ -86,7 +86,8 @@ export class Database{
     //finds all feedbacks matching the given query in descending order
     async findFeedbacksSorted(query, sortField) {
         try{
-            let result: any;
+            let result;
+
             if(Object.keys(query).length === 0) {
                 result = await getRepository(Feedback)
                     .createQueryBuilder("feedback")
@@ -94,7 +95,8 @@ export class Database{
                     .getMany();
             }
             else {
-                const key: any = Object.keys(query)[0];
+                const key: string = Object.keys(query)[0];
+                
                 result = await getRepository(Feedback)
                     .createQueryBuilder("feedback")
                     .where(`feedback.${key} = :${key}`, query)

@@ -6,14 +6,13 @@
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions } from '../utils/index'
 
-
 export default class FeedbackService{
 
     //get all the feedbacks
     async getAllFeedbacks(){
         try{
-            const result: any = await database.findFeedbacks({});
-            if(result.error){
+            const result = await database.findFeedbacks({});
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             return result;
@@ -26,8 +25,8 @@ export default class FeedbackService{
     //get all feedbacks with given query/filter
     async getFeedbacks(feedback_info){
         try{
-            const result: any = await database.findFeedbacks(feedback_info);
-            if(result.error){
+            const result = await database.findFeedbacks(feedback_info);
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             return result;
@@ -40,19 +39,20 @@ export default class FeedbackService{
     //get all feedbacks with given query and sorted
     async getFeedbacksQuerySorted(filter, sort?){
         try{
-            let result: any;
             if(sort === "date") {
                 sort = "created_on";
             }
 
             if(sort) {
-                result = await database.findFeedbacksSorted(filter, sort);
+                let result = await database.findFeedbacksSorted(filter, sort);
+                if(!Array.isArray(result) && result.error){
+                    throw new Error(Errors.INTERNAL_ERROR);
+                }
+                return result;
             }
-            else {
-                result = await database.findFeedbacks(filter);
-            }
-
-            if(result.error){
+            let result = await database.findFeedbacks(filter);
+            
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             return result;
@@ -68,7 +68,6 @@ export default class FeedbackService{
     */
     async getFeedbacksFilteredAndSorted(filter?, sort?){
         try{
-            let result: any;
             if(filter === "status") {
                 filter = {"status": "approved"};
             }
@@ -84,12 +83,14 @@ export default class FeedbackService{
             }
 
             if(sort) {
-                result = await database.findFeedbacksSorted(filter, sort);
+                let result = await database.findFeedbacksSorted(filter, sort);
+                if(!Array.isArray(result) && result.error){
+                    throw new Error(Errors.INTERNAL_ERROR);
+                }
+                return result;
             }
-            else {
-                result = await database.findFeedbacks(filter);
-            }
-            if(result.error){
+            let result = await database.findFeedbacks(filter);
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             return result;
@@ -100,7 +101,7 @@ export default class FeedbackService{
     }
 
     //updates the feedback status given feedback id and status
-    async editFeedbackStatus(feedback_info: {feedback_id: string, status: "approved" | "rejected"}){
+    async editFeedbackStatus(feedback_info: {feedback_id: string, status: 'approved' | 'rejected'}){
 
         try{
             const result: any = await database.updateFeedback({ feedback_id: feedback_info.feedback_id }, {status: feedback_info.status });
@@ -108,9 +109,11 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.matchedCount < 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
+            */
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
             console.log(err);
@@ -127,9 +130,11 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.matchedCount < 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
+            */
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
             console.log(err);
@@ -145,9 +150,11 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.matchedCount < 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
+            */
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
             console.log(err);
@@ -164,9 +171,11 @@ export default class FeedbackService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.deletedCount !== 1){
                 throw new Error(Errors.FEEDBACK_NOT_FOUND);
             }
+            */
             return {message: Messages.FEEDBACK_DELETED};
         } catch(err) {
             console.log(err);
@@ -177,7 +186,7 @@ export default class FeedbackService{
     //finds if the feedback exists given the key and value
     async checkFeedbackExist(key: string, value: any){
         try{
-            let feedback_info: any = {};
+            let feedback_info = {};
             feedback_info[key] = value;
 
             const result: any = await database.findFeedback(feedback_info);
@@ -195,7 +204,7 @@ export default class FeedbackService{
     }
 
     //creates a new feedback with all the given feedback information
-    async addFeedback(feedback_info: {name: string, posted_by: string, feedback: string, entity_id: string, entity: 'user' | 'technology'}){
+    async addFeedback(feedback_info: {name: string, feedback: string, posted_by: string, entity_id: string, entity: 'user' | 'technology'}){
         try{
             let new_feedback: any;
 
@@ -213,7 +222,7 @@ export default class FeedbackService{
 
             const result: any = await database.insertFeedback(new_feedback);
 
-            if(result.error || result.insertedCount < 1){
+            if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
 

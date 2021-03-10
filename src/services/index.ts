@@ -3,9 +3,9 @@ import TechnologyService from "./technologyService"
 import FeedbackService from "./feedbackService"
 
 
-const userService = new UserService();
-const technologyService = new TechnologyService();
-const feedbackService = new FeedbackService();
+const userService: UserService = new UserService();
+const technologyService: TechnologyService = new TechnologyService();
+const feedbackService: FeedbackService = new FeedbackService();
 
 
 export {userService, technologyService, feedbackService};

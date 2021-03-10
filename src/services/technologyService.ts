@@ -12,8 +12,8 @@ export default class TechnologyService{
     //get all technologies from the database
     async getAllTechnologies(){
         try{
-            const result: any = await database.findTechnologies({});
-            if(result.error){
+            const result = await database.findTechnologies({});
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             return result;
@@ -26,17 +26,23 @@ export default class TechnologyService{
     //updates technology name and details
     async editTechnology(technology_info: {name: string, details: string}){
         try{
-            let filter: any = { name: technology_info.name };
-            let updateDoc: any = { details: technology_info.details };
+            let filter = { 
+                name: technology_info.name 
+            }
+            let updateDoc = { 
+                details: technology_info.details 
+            }
 
             const result: any = await database.updateTechnology(filter, updateDoc);
 
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.matchedCount < 1){
                 throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
             }
+            */
             return {message: Messages.TECHNOLOGY_UPDATED};
         } catch(err) {
             console.log(err);
@@ -53,9 +59,11 @@ export default class TechnologyService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.deletedCount !== 1){
                 throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
             }
+            */
             return {message: Messages.TECHNOLOGY_DELETED};
         } catch(err) {
             console.log(err);
@@ -66,7 +74,7 @@ export default class TechnologyService{
     //finds if technology exists with given the key and value
     async checkTechnologyExist(key: string, value: any){
         try{
-            let technology_info: any = {};
+            let technology_info = {};
             technology_info[key] = value;
 
             const result: any = await database.findTechnology(technology_info);
@@ -87,11 +95,11 @@ export default class TechnologyService{
     //adds a new technology with all the given technology information
     async addTechnology(technology_info: {name: string, details?: string}){
         try{
-            let technology: any;
-            technology = {
-                technology_id: helperFunctions.generateId(),
-                name: technology_info.name,
-            }
+            let technology: any = {};
+
+            technology.technology_id = helperFunctions.generateId();
+            technology.name = technology_info.name;
+            
             if(technology_info.details) technology.details = technology_info.details;
 
             const result: any = await database.insertTechnology(technology);

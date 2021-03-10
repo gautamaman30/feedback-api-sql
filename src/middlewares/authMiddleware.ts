@@ -18,8 +18,7 @@ export class AuthMiddleware{
             algorithm: configObj.JWT_TOKEN_ALGORITHM
         }
 
-        const key: any = configObj.SECRET_KEY;
-        let payload: any = JSON.parse(res.get("payload"));
+        let payload = JSON.parse(res.get("payload"));
 
         jwt.sign(payload, <Secret>configObj.SECRET_KEY , signOptions , function(err, token) {
             if(err){
@@ -40,7 +39,7 @@ export class AuthMiddleware{
     */
     verifyToken(req: Request, res: Response, next: NextFunction){
 
-        let token: any;
+        let token;
         if(req.headers.authorization){
             token = req.headers.authorization.split(' ')[1];
         }

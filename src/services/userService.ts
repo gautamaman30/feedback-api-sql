@@ -11,8 +11,8 @@ export default class UserService{
     //get all users
     async getAllUsers(){
         try{
-            let result: any = await database.findUsers({});
-            if(result.error){
+            let result = await database.findUsers({});
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
 
@@ -30,12 +30,12 @@ export default class UserService{
             let user_info: any = {};
             user_info[key] = value;
 
-            const result: any = await database.findUsers(user_info);
+            const result = await database.findUsers(user_info);
 
             if(!result){
                 throw new Error(Errors.USER_NOT_FOUND);
             }
-            if(result.error){
+            if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
 
@@ -55,9 +55,11 @@ export default class UserService{
             if(result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
+            /*
             if(result.deletedCount !== 1){
                 throw new Error(Errors.USER_NOT_FOUND);
             }
+            */
             return {message: Messages.USER_DELETED};
         } catch(err) {
             console.log(err);
@@ -71,6 +73,7 @@ export default class UserService{
         try{
             let user_info: any = {};
             user_info[key] = value;
+            
             const result: any = await database.findUser(user_info);
 
             if(!result){
@@ -117,7 +120,7 @@ export default class UserService{
     async addUser(user_info: {name: string, email: string, title?: string, date_of_birth?: string}){
 
         try{
-            let user: any;
+            let user: any = {};
             let password: string = user_info.name + '1234';
             let hashedPassword = await helperFunctions.hashPassword(password);
 
@@ -131,7 +134,7 @@ export default class UserService{
 
             if(user_info.title) user.title = user_info.title;
             if(user_info.date_of_birth) {
-                let temp_date_of_birth: any = helperFunctions.convertStringToDate(user_info.date_of_birth);4
+                let temp_date_of_birth: Date | null = helperFunctions.convertStringToDate(user_info.date_of_birth);4
                 if(!temp_date_of_birth){
                     throw new Error(Errors.INVALID_DATE);
                 }
@@ -163,11 +166,11 @@ export default class UserService{
                 update.title = user_info.title
             }
             if(user_info.date_of_birth) {
-                let temp_date_of_birth: any = helperFunctions.convertStringToDate(user_info.date_of_birth);4
+                let temp_date_of_birth: Date | null = helperFunctions.convertStringToDate(user_info.date_of_birth);4
                 if(!temp_date_of_birth){
                     throw new Error(Errors.INVALID_DATE);
-                    update.date_of_birth = helperFunctions.getFormatedDate(temp_date_of_birth);
                 }
+                update.date_of_birth = helperFunctions.getFormatedDate(temp_date_of_birth);
             }
 
             let filter = {email: user_info.email};

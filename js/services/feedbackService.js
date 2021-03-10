@@ -21,7 +21,7 @@ class FeedbackService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield index_1.database.findFeedbacks({});
-                if (result.error) {
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -37,7 +37,7 @@ class FeedbackService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield index_1.database.findFeedbacks(feedback_info);
-                if (result.error) {
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -52,17 +52,18 @@ class FeedbackService {
     getFeedbacksQuerySorted(filter, sort) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let result;
                 if (sort === "date") {
                     sort = "created_on";
                 }
                 if (sort) {
-                    result = yield index_1.database.findFeedbacksSorted(filter, sort);
+                    let result = yield index_1.database.findFeedbacksSorted(filter, sort);
+                    if (!Array.isArray(result) && result.error) {
+                        throw new Error(index_2.Errors.INTERNAL_ERROR);
+                    }
+                    return result;
                 }
-                else {
-                    result = yield index_1.database.findFeedbacks(filter);
-                }
-                if (result.error) {
+                let result = yield index_1.database.findFeedbacks(filter);
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -80,7 +81,6 @@ class FeedbackService {
     getFeedbacksFilteredAndSorted(filter, sort) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let result;
                 if (filter === "status") {
                     filter = { "status": "approved" };
                 }
@@ -94,12 +94,14 @@ class FeedbackService {
                     sort = "created_on";
                 }
                 if (sort) {
-                    result = yield index_1.database.findFeedbacksSorted(filter, sort);
+                    let result = yield index_1.database.findFeedbacksSorted(filter, sort);
+                    if (!Array.isArray(result) && result.error) {
+                        throw new Error(index_2.Errors.INTERNAL_ERROR);
+                    }
+                    return result;
                 }
-                else {
-                    result = yield index_1.database.findFeedbacks(filter);
-                }
-                if (result.error) {
+                let result = yield index_1.database.findFeedbacks(filter);
+                if (!Array.isArray(result) && result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return result;
@@ -118,9 +120,11 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.matchedCount < 1) {
-                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
+                /*
+                if(result.matchedCount < 1){
+                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.FEEDBACK_UPDATED };
             }
             catch (err) {
@@ -137,9 +141,11 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.matchedCount < 1) {
-                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
+                /*
+                if(result.matchedCount < 1){
+                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.FEEDBACK_UPDATED };
             }
             catch (err) {
@@ -156,9 +162,11 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.matchedCount < 1) {
-                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
+                /*
+                if(result.matchedCount < 1){
+                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.FEEDBACK_UPDATED };
             }
             catch (err) {
@@ -175,9 +183,11 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                if (result.deletedCount !== 1) {
-                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
+                /*
+                if(result.deletedCount !== 1){
+                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
                 }
+                */
                 return { message: index_2.Messages.FEEDBACK_DELETED };
             }
             catch (err) {
@@ -224,7 +234,7 @@ class FeedbackService {
                     count: 0
                 };
                 const result = yield index_1.database.insertFeedback(new_feedback);
-                if (result.error || result.insertedCount < 1) {
+                if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return { message: index_2.Messages.FEEDBACK_CREATED };

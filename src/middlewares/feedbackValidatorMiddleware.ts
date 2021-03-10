@@ -18,7 +18,7 @@ export class FeedbackValidator{
             sort: string().trim().matches(/(date|count)/)
         });
 
-        let user_info: any = {
+        let user_info = {
             filter: req.query.filter,
             sort: req.query.sort
         };
@@ -45,7 +45,7 @@ export class FeedbackValidator{
             sort: string().trim().matches(/(date|count)/)
         });
 
-        let user_info: any = {
+        let user_info = {
             posted_by: req.query.posted_by,
             email: req.query.email,
             sort: req.query.sort
@@ -73,7 +73,7 @@ export class FeedbackValidator{
             sort: string().trim().matches(/(date|count)/)
         });
 
-        let user_info: any = {
+        let user_info = {
             name: req.query.name,
             sort: req.query.sort
         };
@@ -100,7 +100,7 @@ export class FeedbackValidator{
             feedback: string().required().trim().min(10).max(200)
         });
 
-        let feedback_info: any = {
+        let feedback_info = {
             name: req.body.name,
             email: req.body.email,
             feedback: req.body.feedback
@@ -128,7 +128,7 @@ export class FeedbackValidator{
             feedback: string().required().trim().min(10).max(200)
         });
 
-        let feedback_info: any = {
+        let feedback_info = {
             name: req.body.name,
             feedback: req.body.feedback
         };
@@ -154,7 +154,7 @@ export class FeedbackValidator{
             feedback: string().required().trim().min(10).max(200)
         });
 
-        let feedback_info: any = {
+        let feedback_info = {
             feedback_id: req.body.feedback_id,
             feedback: req.body.feedback
         };
@@ -180,7 +180,7 @@ export class FeedbackValidator{
             status: string().required().trim().lowercase().matches(/(approved|rejected)/)
         });
 
-        let feedback_info: any = {
+        let feedback_info = {
             feedback_id: req.body.feedback_id,
             status: req.body.status,
         };
@@ -205,7 +205,7 @@ export class FeedbackValidator{
             feedback_id: string().required().trim().length(10),
         });
 
-        let feedback_info: any = {
+        let feedback_info = {
             feedback_id: req.body.feedback_id
         };
 
@@ -228,7 +228,7 @@ export class FeedbackValidator{
             feedback_id: string().required().trim().length(10),
         });
 
-        let feedback_info: any = {
+        let feedback_info = {
             feedback_id: req.body.feedback_id
         };
 

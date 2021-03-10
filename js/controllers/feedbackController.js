@@ -259,12 +259,13 @@ class FeedbackController {
             try {
                 const admin_id = req.body.user_id;
                 const feedback_id = req.body.feedback_id;
-                let status = req.body.status;
+                let feedback_status = req.body.status;
                 const admin = yield index_1.userService.checkAdminExist("user_id", admin_id);
                 if (admin.error) {
                     throw new Error(admin.error);
                 }
-                status = status.toLowerCase();
+                feedback_status = feedback_status.toLowerCase();
+                let status = feedback_status;
                 const feedback = yield index_1.feedbackService.editFeedbackStatus({ feedback_id, status });
                 if (feedback.error) {
                     throw new Error(feedback.error);
