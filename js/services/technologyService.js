@@ -15,6 +15,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../models/index");
 const index_2 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class TechnologyService {
     //get all technologies from the database
     getAllTechnologies() {
@@ -27,7 +28,7 @@ class TechnologyService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: index_2.Errors.INTERNAL_ERROR };
             }
         });
@@ -46,15 +47,13 @@ class TechnologyService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.matchedCount < 1){
-                    throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
+                if (result.affected < 1) {
+                    throw new Error(index_2.Errors.TECHNOLOGY_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.TECHNOLOGY_UPDATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -67,15 +66,13 @@ class TechnologyService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.deletedCount !== 1){
-                    throw new Error(Errors.TECHNOLOGY_NOT_FOUND);
+                if (result.affected !== 1) {
+                    throw new Error(index_2.Errors.TECHNOLOGY_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.TECHNOLOGY_DELETED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -96,7 +93,7 @@ class TechnologyService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -111,13 +108,13 @@ class TechnologyService {
                 if (technology_info.details)
                     technology.details = technology_info.details;
                 const result = yield index_1.database.insertTechnology(technology);
-                if (result.error || result.insertedCount < 1) {
+                if (result.error || result.affected < 1) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return { message: index_2.Messages.TECHNOLOGY_CREATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });

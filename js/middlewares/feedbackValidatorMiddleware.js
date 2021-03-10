@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedbackValidator = void 0;
 const yup_1 = require("yup");
 const index_1 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class FeedbackValidator {
     //validates get requests for feedbacks
     getFeedbacks(req, res, next) {
@@ -25,7 +26,7 @@ class FeedbackValidator {
             req.query.sort = result.sort;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -50,7 +51,7 @@ class FeedbackValidator {
             req.query.sort = result.sort;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -72,7 +73,7 @@ class FeedbackValidator {
             req.query.sort = result.sort;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -97,7 +98,7 @@ class FeedbackValidator {
             req.body.feedback = result.feedback;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -119,7 +120,7 @@ class FeedbackValidator {
             req.body.feedback = result.feedback;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -141,7 +142,7 @@ class FeedbackValidator {
             req.body.feedback = result.feedback;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -163,7 +164,7 @@ class FeedbackValidator {
             req.body.status = result.status;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -182,7 +183,7 @@ class FeedbackValidator {
             req.body.feedback_id = result.feedback_id;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -201,7 +202,7 @@ class FeedbackValidator {
             req.body.feedback_id = result.feedback_id;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });

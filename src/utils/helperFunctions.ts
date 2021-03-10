@@ -6,6 +6,7 @@
 
 import bcrypt from "bcrypt"
 import {Errors} from "./errorsUtils"
+import {logger} from "../configLogger"
 
 export class HelperFunctions{
 
@@ -17,7 +18,7 @@ export class HelperFunctions{
             if(hashedPassword) return hashedPassword;
             throw new Error(Errors.INTERNAL_ERROR);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -26,12 +27,10 @@ export class HelperFunctions{
     async comparePassword(password, hashedPassword){
         try{
             const result = await bcrypt.compare(password, hashedPassword);
-            console.log(2);
-            console.log(result);
             if(result) return true;
             else return false;
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             return {error: Errors.INTERNAL_ERROR}
         }
     }

@@ -15,6 +15,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../services/index");
 const index_2 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class FeedbackController {
     //handles get feedbacks requests
     getFeedbacks(req, res) {
@@ -53,7 +54,7 @@ class FeedbackController {
                 res.send({ feedbacks });
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -102,7 +103,7 @@ class FeedbackController {
                 res.send({ feedbacks });
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -142,7 +143,7 @@ class FeedbackController {
                 res.send({ feedbacks });
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -179,7 +180,7 @@ class FeedbackController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -212,7 +213,7 @@ class FeedbackController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -247,7 +248,7 @@ class FeedbackController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -274,7 +275,7 @@ class FeedbackController {
                 res.send(feedback);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -310,7 +311,7 @@ class FeedbackController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -338,7 +339,7 @@ class FeedbackController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }

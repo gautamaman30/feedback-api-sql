@@ -6,6 +6,7 @@
 import {Request, Response } from "express"
 import {userService, technologyService } from "../services/index"
 import { helperFunctions, Errors} from "../utils/index"
+import {logger} from "../configLogger"
 
 export default class TechnologyController{
 
@@ -34,7 +35,7 @@ export default class TechnologyController{
             res.status(200);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(404);
             res.send({error: e.message});
         }
@@ -69,7 +70,7 @@ export default class TechnologyController{
             res.status(201);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -101,7 +102,7 @@ export default class TechnologyController{
             res.status(200);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -132,7 +133,7 @@ export default class TechnologyController{
             res.status(200);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }

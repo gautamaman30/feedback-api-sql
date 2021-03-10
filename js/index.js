@@ -7,7 +7,8 @@ require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const index_1 = require("./routes/index");
-const config_1 = __importDefault(require("./config"));
+const configEnv_1 = __importDefault(require("./configEnv"));
+const configLogger_1 = require("./configLogger");
 //creating server
 const app = express_1.default();
 const server = http_1.default.createServer(app);
@@ -17,5 +18,5 @@ app.use(express_1.default.json());
 const router = new index_1.RoutesHandler();
 app.use('/api/v1', router.configureRoutes());
 app.use('/', router.configureInvalidRoutes());
-//running server 
-server.listen(config_1.default.PORT, () => console.log(`server is running at ${config_1.default.PORT}`));
+//running server
+server.listen(configEnv_1.default.PORT, () => configLogger_1.logger.log('info', `server is running at ${configEnv_1.default.PORT}`));

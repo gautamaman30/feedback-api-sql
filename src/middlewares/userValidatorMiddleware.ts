@@ -7,6 +7,7 @@
 import {Request, Response, NextFunction} from "express"
 import { helperFunctions } from "../utils/index"
 import {object, string } from "yup"
+import {logger} from "../configLogger"
 
 export class UserValidator{
 
@@ -25,10 +26,10 @@ export class UserValidator{
               req.body.email = result.email;
               return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 
@@ -50,10 +51,10 @@ export class UserValidator{
               req.body.password = result.password;
               return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 
@@ -82,10 +83,10 @@ export class UserValidator{
 
               return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 
@@ -111,10 +112,10 @@ export class UserValidator{
 
               return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 }

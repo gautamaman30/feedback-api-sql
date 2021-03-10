@@ -15,6 +15,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../services/index");
 const index_2 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class TechnologyController {
     //handles get technology requests
     getTechnology(req, res) {
@@ -43,7 +44,7 @@ class TechnologyController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(404);
                 res.send({ error: e.message });
             }
@@ -76,7 +77,7 @@ class TechnologyController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -106,7 +107,7 @@ class TechnologyController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }
@@ -135,7 +136,7 @@ class TechnologyController {
                 res.send(result);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 res.status(400);
                 res.send({ error: e.message });
             }

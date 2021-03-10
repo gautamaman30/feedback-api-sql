@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TechnologyValidator = void 0;
 const yup_1 = require("yup");
 const index_1 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class TechnologyValidator {
     //validates post and update technology requests
     postAndUpdateTechnology(req, res, next) {
@@ -25,7 +26,7 @@ class TechnologyValidator {
             req.body.details = result.details;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -44,7 +45,7 @@ class TechnologyValidator {
             req.body.name = result.name;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });

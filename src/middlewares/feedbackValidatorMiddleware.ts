@@ -7,7 +7,7 @@
 import {Request, Response, NextFunction} from "express"
 import {object, string } from "yup"
 import { helperFunctions } from "../utils/index"
-
+import {logger} from "../configLogger"
 
 export class FeedbackValidator{
 
@@ -25,15 +25,15 @@ export class FeedbackValidator{
 
         userSchema.validate(user_info)
             .then((result) => {
-              req.query.filter = result.filter;
-              req.query.sort = result.sort;
+                req.query.filter = result.filter;
+                req.query.sort = result.sort;
 
-              return next();
+                return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 
@@ -59,7 +59,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -85,7 +85,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -114,7 +114,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -140,7 +140,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -166,7 +166,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -192,7 +192,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -215,7 +215,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});
@@ -238,7 +238,7 @@ export class FeedbackValidator{
 
                 return next();
             }).catch(err => {
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(400);
                 let error = helperFunctions.capitalizeString(err.errors);
                 res.send({error});

@@ -8,6 +8,7 @@ import { createConnection, Connection} from "typeorm"
 import { Users } from "./user"
 import { Technology } from "./technology"
 import { Feedback } from "./feedback"
+import {logger} from "../configLogger"
 
 export class ConnectDb{
 
@@ -43,7 +44,7 @@ export class ConnectDb{
             });
             return connection;
         } catch(e) {
-            console.log(e);
+            logger.log('error', e.message);
         }
     }
 }

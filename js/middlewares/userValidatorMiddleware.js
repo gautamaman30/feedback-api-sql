@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserValidator = void 0;
 const index_1 = require("../utils/index");
 const yup_1 = require("yup");
+const configLogger_1 = require("../configLogger");
 class UserValidator {
     //validates delete user requests
     deleteUser(req, res, next) {
@@ -22,7 +23,7 @@ class UserValidator {
             req.body.email = result.email;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -44,7 +45,7 @@ class UserValidator {
             req.body.password = result.password;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -72,7 +73,7 @@ class UserValidator {
             req.body.date_of_birth = result.date_of_birth;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });
@@ -97,7 +98,7 @@ class UserValidator {
             req.body.date_of_birth = result.date_of_birth;
             return next();
         }).catch(err => {
-            console.log(err);
+            configLogger_1.logger.log('error', err.message);
             res.status(400);
             let error = index_1.helperFunctions.capitalizeString(err.errors);
             res.send({ error });

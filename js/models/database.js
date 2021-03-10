@@ -19,6 +19,7 @@ const typeorm_1 = require("typeorm");
 const user_1 = require("./user");
 const technology_1 = require("./technology");
 const feedback_1 = require("./feedback");
+const configLogger_1 = require("../configLogger");
 class Database {
     //finds first user matching the given query
     findUser(query) {
@@ -29,7 +30,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -43,7 +44,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -57,7 +58,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -71,7 +72,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -85,7 +86,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -99,7 +100,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -126,7 +127,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -137,12 +138,10 @@ class Database {
             try {
                 const result = yield typeorm_1.getRepository(user_1.Users)
                     .update(filter, update);
-                console.log(1);
-                console.log(result);
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -156,7 +155,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -170,7 +169,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -188,7 +187,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -199,12 +198,10 @@ class Database {
             try {
                 const result = yield typeorm_1.getRepository(user_1.Users)
                     .insert(user_info);
-                console.log(2);
-                console.log(result);
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -218,7 +215,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -232,7 +229,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -243,12 +240,10 @@ class Database {
             try {
                 const result = yield typeorm_1.getRepository(user_1.Users)
                     .delete(query);
-                console.log(3);
-                console.log(result);
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -262,7 +257,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -276,7 +271,7 @@ class Database {
                 return result;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });

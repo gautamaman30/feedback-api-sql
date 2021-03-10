@@ -7,6 +7,7 @@
 import {Request, Response, NextFunction} from "express"
 import {object, string } from "yup"
 import { helperFunctions } from "../utils/index"
+import {logger} from "../configLogger"
 
 export class TechnologyValidator{
 
@@ -29,10 +30,10 @@ export class TechnologyValidator{
 
               return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 
@@ -52,10 +53,10 @@ export class TechnologyValidator{
 
               return next();
             }).catch(err => {
-              console.log(err);
-              res.status(400);
-              let error = helperFunctions.capitalizeString(err.errors);
-              res.send({error});
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
             })
     }
 }

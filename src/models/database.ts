@@ -8,6 +8,7 @@ import { getRepository } from "typeorm"
 import { Users } from "./user"
 import { Technology } from "./technology"
 import { Feedback } from "./feedback"
+import {logger} from "../configLogger"
 
 export class Database{
 
@@ -18,7 +19,7 @@ export class Database{
                 .findOne(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -30,7 +31,7 @@ export class Database{
                 .find(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -42,7 +43,7 @@ export class Database{
                 .find(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -54,7 +55,7 @@ export class Database{
                 .findOne(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -66,7 +67,7 @@ export class Database{
                 .findOne(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -78,7 +79,7 @@ export class Database{
                 .find(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -96,7 +97,7 @@ export class Database{
             }
             else {
                 const key: string = Object.keys(query)[0];
-                
+
                 result = await getRepository(Feedback)
                     .createQueryBuilder("feedback")
                     .where(`feedback.${key} = :${key}`, query)
@@ -105,7 +106,7 @@ export class Database{
             }
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -117,7 +118,7 @@ export class Database{
                 .update(filter, update);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -129,7 +130,7 @@ export class Database{
                 .update(filter, update);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -141,7 +142,7 @@ export class Database{
                 .update(filter, update);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -157,7 +158,7 @@ export class Database{
                 .execute();
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -169,7 +170,7 @@ export class Database{
                 .insert(user_info);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -181,7 +182,7 @@ export class Database{
                 .insert(technology_info);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -193,7 +194,7 @@ export class Database{
                 .insert(feedback_info);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -205,7 +206,7 @@ export class Database{
                 .delete(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -217,7 +218,7 @@ export class Database{
                 .delete(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }
@@ -229,7 +230,7 @@ export class Database{
                 .delete(query);
             return result;
         } catch(e){
-            console.log(e);
+            logger.log('error', e.message);
             return {error: e.message};
         }
     }

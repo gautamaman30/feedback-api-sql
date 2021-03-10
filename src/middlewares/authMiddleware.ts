@@ -6,7 +6,8 @@
 import { Request, Response, NextFunction} from "express"
 import jwt, { Secret } from "jsonwebtoken"
 import { Errors } from "../utils/index"
-import configObj from "../config"
+import configObj from "../configEnv"
+import {logger} from "../configLogger"
 
 export class AuthMiddleware{
 
@@ -22,13 +23,13 @@ export class AuthMiddleware{
 
         jwt.sign(payload, <Secret>configObj.SECRET_KEY , signOptions , function(err, token) {
             if(err){
-              console.log(err);
-              res.status(500);
-              res.send({error: Errors.INTERNAL_ERROR});
+                logger.log('error', err.message);
+                res.status(500);
+                res.send({error: Errors.INTERNAL_ERROR});
             }
             if(token){
-              console.log(token);
-              res.send({token});
+                logger.log('info', token);
+                res.send({token});
             }
         });
     }
@@ -46,7 +47,7 @@ export class AuthMiddleware{
 
         jwt.verify(token, <Secret>configObj.SECRET_KEY, function(err, result) {
             if(err){
-                console.log(err);
+                logger.log('error', err.message);
                 res.status(401);
                 res.send({error: Errors.AUTHORIZATION_FAILED});
             }
@@ -68,7 +69,7 @@ export class AuthMiddleware{
 
     //sends a response for all the invalid routes
     handleInvalidRoutes(req: Request, res, Response) {
-        console.log(req.path);
+        logger.log('info', req.path);
         res.status(400);
         res.send({error: Errors.URL_NOT_FOUND});
     }

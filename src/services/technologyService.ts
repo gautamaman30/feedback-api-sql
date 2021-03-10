@@ -5,7 +5,7 @@
 
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions} from '../utils/index'
-
+import {logger} from "../configLogger"
 
 export default class TechnologyService{
 
@@ -18,7 +18,7 @@ export default class TechnologyService{
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: Errors.INTERNAL_ERROR};
         }
     }
@@ -26,11 +26,11 @@ export default class TechnologyService{
     //updates technology name and details
     async editTechnology(technology_info: {name: string, details: string}){
         try{
-            let filter = { 
-                name: technology_info.name 
+            let filter = {
+                name: technology_info.name
             }
-            let updateDoc = { 
-                details: technology_info.details 
+            let updateDoc = {
+                details: technology_info.details
             }
 
             const result: any = await database.updateTechnology(filter, updateDoc);
@@ -43,7 +43,7 @@ export default class TechnologyService{
             }
             return {message: Messages.TECHNOLOGY_UPDATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -62,7 +62,7 @@ export default class TechnologyService{
             }
             return {message: Messages.TECHNOLOGY_DELETED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -83,7 +83,7 @@ export default class TechnologyService{
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -95,7 +95,7 @@ export default class TechnologyService{
 
             technology.technology_id = helperFunctions.generateId();
             technology.name = technology_info.name;
-            
+
             if(technology_info.details) technology.details = technology_info.details;
 
             const result: any = await database.insertTechnology(technology);
@@ -106,7 +106,7 @@ export default class TechnologyService{
 
             return {message: Messages.TECHNOLOGY_CREATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }

@@ -20,6 +20,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HelperFunctions = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const errorsUtils_1 = require("./errorsUtils");
+const configLogger_1 = require("../configLogger");
 class HelperFunctions {
     //converts a password and generates a hash, using bcrypt library
     hashPassword(password) {
@@ -32,7 +33,7 @@ class HelperFunctions {
                 throw new Error(errorsUtils_1.Errors.INTERNAL_ERROR);
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 return { error: e.message };
             }
         });
@@ -42,15 +43,13 @@ class HelperFunctions {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield bcrypt_1.default.compare(password, hashedPassword);
-                console.log(2);
-                console.log(result);
                 if (result)
                     return true;
                 else
                     return false;
             }
             catch (e) {
-                console.log(e.message);
+                configLogger_1.logger.log('error', e.message);
                 return { error: errorsUtils_1.Errors.INTERNAL_ERROR };
             }
         });

@@ -6,6 +6,7 @@
 import {Request, Response } from "express"
 import {userService, technologyService, feedbackService} from "../services/index"
 import {helperFunctions, Errors} from "../utils/index"
+import {logger} from "../configLogger"
 
 export default class FeedbackController{
 
@@ -49,7 +50,7 @@ export default class FeedbackController{
             res.status(200);
             res.send({feedbacks});
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -99,7 +100,7 @@ export default class FeedbackController{
             res.status(200);
             res.send({feedbacks});
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -142,7 +143,7 @@ export default class FeedbackController{
             res.status(200);
             res.send({feedbacks});
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -182,7 +183,7 @@ export default class FeedbackController{
             res.status(201);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -218,7 +219,7 @@ export default class FeedbackController{
             res.status(201);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -255,7 +256,7 @@ export default class FeedbackController{
             res.status(200);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -284,7 +285,7 @@ export default class FeedbackController{
             res.status(200);
             res.send(feedback);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -322,7 +323,7 @@ export default class FeedbackController{
             res.status(200);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }
@@ -352,7 +353,7 @@ export default class FeedbackController{
             res.status(200);
             res.send(result);
         } catch(e){
-            console.log(e.message);
+            logger.log('error', e.message);
             res.status(400);
             res.send({error: e.message});
         }

@@ -5,6 +5,7 @@
 
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions } from '../utils/index'
+import {logger} from "../configLogger"
 
 export default class FeedbackService{
 
@@ -17,7 +18,7 @@ export default class FeedbackService{
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: Errors.INTERNAL_ERROR};
         }
     }
@@ -31,7 +32,7 @@ export default class FeedbackService{
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: Errors.INTERNAL_ERROR};
         }
     }
@@ -51,13 +52,13 @@ export default class FeedbackService{
                 return result;
             }
             let result = await database.findFeedbacks(filter);
-            
+
             if(!Array.isArray(result) && result.error){
                 throw new Error(Errors.INTERNAL_ERROR);
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: Errors.INTERNAL_ERROR};
         }
     }
@@ -95,7 +96,7 @@ export default class FeedbackService{
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: Errors.INTERNAL_ERROR};
         }
     }
@@ -114,7 +115,7 @@ export default class FeedbackService{
             }
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -133,7 +134,7 @@ export default class FeedbackService{
             }
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -151,7 +152,7 @@ export default class FeedbackService{
             }
             return {message: Messages.FEEDBACK_UPDATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -170,7 +171,7 @@ export default class FeedbackService{
             }
             return {message: Messages.FEEDBACK_DELETED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -190,7 +191,7 @@ export default class FeedbackService{
             }
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -220,7 +221,7 @@ export default class FeedbackService{
 
             return {message: Messages.FEEDBACK_CREATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }

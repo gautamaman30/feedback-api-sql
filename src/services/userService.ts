@@ -5,6 +5,7 @@
 
 import { database } from '../models/index'
 import {Errors, Messages, helperFunctions } from '../utils/index'
+import {logger} from "../configLogger"
 
 export default class UserService{
 
@@ -18,7 +19,7 @@ export default class UserService{
 
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: Errors.INTERNAL_ERROR};
         }
     }
@@ -41,7 +42,7 @@ export default class UserService{
 
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
 
@@ -60,7 +61,7 @@ export default class UserService{
             }
             return {message: Messages.USER_DELETED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -71,7 +72,7 @@ export default class UserService{
         try{
             let user_info: any = {};
             user_info[key] = value;
-            
+
             const result: any = await database.findUser(user_info);
 
             if(!result){
@@ -83,7 +84,7 @@ export default class UserService{
 
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -109,7 +110,7 @@ export default class UserService{
 
             return result;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
     }
@@ -146,7 +147,7 @@ export default class UserService{
             user.password = password;
             return user;
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
 
@@ -180,7 +181,7 @@ export default class UserService{
 
             return {message: Messages.USER_UPDATED};
         } catch(err) {
-            console.log(err);
+            logger.log('error', err.message);
             return {error: err.message};
         }
 

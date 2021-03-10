@@ -15,6 +15,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../models/index");
 const index_2 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class FeedbackService {
     //get all the feedbacks
     getAllFeedbacks() {
@@ -27,7 +28,7 @@ class FeedbackService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: index_2.Errors.INTERNAL_ERROR };
             }
         });
@@ -43,7 +44,7 @@ class FeedbackService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: index_2.Errors.INTERNAL_ERROR };
             }
         });
@@ -69,7 +70,7 @@ class FeedbackService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: index_2.Errors.INTERNAL_ERROR };
             }
         });
@@ -107,7 +108,7 @@ class FeedbackService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: index_2.Errors.INTERNAL_ERROR };
             }
         });
@@ -120,15 +121,13 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.matchedCount < 1){
-                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
+                if (result.affected < 1) {
+                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.FEEDBACK_UPDATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -141,15 +140,13 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.matchedCount < 1){
-                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
+                if (result.affected < 1) {
+                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.FEEDBACK_UPDATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -162,15 +159,13 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.matchedCount < 1){
-                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
+                if (result.affected < 1) {
+                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.FEEDBACK_UPDATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -183,15 +178,13 @@ class FeedbackService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.deletedCount !== 1){
-                    throw new Error(Errors.FEEDBACK_NOT_FOUND);
+                if (result.affected !== 1) {
+                    throw new Error(index_2.Errors.FEEDBACK_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.FEEDBACK_DELETED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -212,7 +205,7 @@ class FeedbackService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -240,7 +233,7 @@ class FeedbackService {
                 return { message: index_2.Messages.FEEDBACK_CREATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });

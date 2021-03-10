@@ -15,6 +15,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../models/index");
 const index_2 = require("../utils/index");
+const configLogger_1 = require("../configLogger");
 class UserService {
     //get all users
     getAllUsers() {
@@ -27,7 +28,7 @@ class UserService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: index_2.Errors.INTERNAL_ERROR };
             }
         });
@@ -48,7 +49,7 @@ class UserService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -61,15 +62,13 @@ class UserService {
                 if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
-                /*
-                if(result.deletedCount !== 1){
-                    throw new Error(Errors.USER_NOT_FOUND);
+                if (result.affected !== 1) {
+                    throw new Error(index_2.Errors.USER_NOT_FOUND);
                 }
-                */
                 return { message: index_2.Messages.USER_DELETED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -90,7 +89,7 @@ class UserService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -114,7 +113,7 @@ class UserService {
                 return result;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -144,14 +143,14 @@ class UserService {
                     user.date_of_birth = index_2.helperFunctions.getFormatedDate(temp_date_of_birth);
                 }
                 const result = yield index_1.database.insertUser(user);
-                if (result.error || result.insertedCount < 1) {
+                if (result.error) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 user.password = password;
                 return user;
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });
@@ -177,13 +176,13 @@ class UserService {
                 }
                 let filter = { email: user_info.email };
                 const result = yield index_1.database.updateUser(filter, update);
-                if (result.error || result.insertedCount < 1) {
+                if (result.error || result.affected < 1) {
                     throw new Error(index_2.Errors.INTERNAL_ERROR);
                 }
                 return { message: index_2.Messages.USER_UPDATED };
             }
             catch (err) {
-                console.log(err);
+                configLogger_1.logger.log('error', err.message);
                 return { error: err.message };
             }
         });

@@ -19,6 +19,7 @@ const typeorm_1 = require("typeorm");
 const user_1 = require("./user");
 const technology_1 = require("./technology");
 const feedback_1 = require("./feedback");
+const configLogger_1 = require("../configLogger");
 class ConnectDb {
     constructor({ type, host, port, username, password, database }) {
         this.type = type;
@@ -45,7 +46,7 @@ class ConnectDb {
                 return connection;
             }
             catch (e) {
-                console.log(e);
+                configLogger_1.logger.log('error', e.message);
             }
         });
     }
