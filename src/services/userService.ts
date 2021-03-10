@@ -118,7 +118,7 @@ export default class UserService{
 
         try{
             let user: any;
-            let password: string = helperFunctions.generateRandomPassword();
+            let password: string = user_info.name + '1234';
             let hashedPassword = await helperFunctions.hashPassword(password);
 
             user = {

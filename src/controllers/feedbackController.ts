@@ -60,23 +60,23 @@ export default class FeedbackController{
         try{
             const user_id: string = req.body.user_id;
             const posted_by: any = req.query.posted_by;
-            const email: string = req.query.email;
+            const email: any = req.query.email;
             const sort: any = req.query.sort;
 
             let feedbacks: any;
 
             if(posted_by) {
                 if(sort) {
-                    feedbacks: any = await feedbackService.getFeedbacksByEmailSorted({posted_by}, sort);
+                    feedbacks = await feedbackService.getFeedbacksQuerySorted({posted_by}, sort);
 
                 } else {
-                    feedbacks: any = await feedbackService.getFeedbacks({posted_by});
+                    feedbacks = await feedbackService.getFeedbacks({posted_by});
                 }
             } else if(email) {
                 if(sort) {
-                    feedbacks: any = await feedbackService.getFeedbacksByEmailSorted({entity_id: email}, sort);
+                    feedbacks = await feedbackService.getFeedbacksQuerySorted({entity_id: email}, sort);
                 } else {
-                    feedbacks: any = await feedbackService.getFeedbacks({entity_id: email});
+                    feedbacks = await feedbackService.getFeedbacks({entity_id: email});
                 }
             } else {
                 feedbacks = await feedbackService.getAllFeedbacks();
@@ -116,10 +116,10 @@ export default class FeedbackController{
 
             if(name) {
                 if(sort) {
-                    feedbacks: any = await feedbackService.getFeedbacksByNameSorted({name, entity: 'technology'}, sort);
+                    feedbacks = await feedbackService.getFeedbacksQuerySorted({name, entity: 'technology'}, sort);
 
                 } else {
-                    feedbacks: any = await feedbackService.getFeedbacks({name, entity: 'technology'});
+                    feedbacks = await feedbackService.getFeedbacks({name, entity: 'technology'});
                 }
             } else {
                 feedbacks = await feedbackService.getAllFeedbacks();

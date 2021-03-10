@@ -7,19 +7,7 @@
 import bcrypt from "bcrypt"
 import {Errors} from "./errorsUtils"
 
-
 export class HelperFunctions{
-
-    //generates random password of length 8
-    generateRandomPassword(): string{
-        const str = "0123456789";
-        let password = '';
-        while(password.length < 8){
-          let tempChar = Math.floor(Math.random()*str.length);
-          password += str[tempChar];
-        }
-        return password;
-    }
 
     //converts a password and generates a hash, using bcrypt library
     async hashPassword(password){
@@ -100,7 +88,7 @@ export class HelperFunctions{
         return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
     }
 
-    //removes sensitive data like password and _id 
+    //removes sensitive data like password and _id
     removeSensitiveData(data: any) {
         if(data) {
             if(Array.isArray(data)) {

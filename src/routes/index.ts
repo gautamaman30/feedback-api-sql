@@ -67,7 +67,7 @@ export class RoutesHandler{
             and get feedbacks for a technology by name
         */
         this.router.route('/technology/feedback')
-            .get(feedbackValidator.getTechnologyrFeedbacks, feedbackController.getTechnologyrFeedbacks)
+            .get(feedbackValidator.getTechnologyFeedbacks, feedbackController.getTechnologyFeedbacks)
             .post(feedbackValidator.postTechnologyFeedback, feedbackController.postTechnologyFeedback);
 
         //handle invalid routes after /api/v1

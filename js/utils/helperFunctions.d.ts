@@ -1,5 +1,4 @@
 export declare class HelperFunctions {
-    generateRandomPassword(): string;
     hashPassword(password: any): Promise<any>;
     comparePassword(password: any, hashedPassword: any): Promise<boolean | {
         error: string;

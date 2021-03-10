@@ -37,9 +37,10 @@ export default class FeedbackService{
         }
     }
 
-    //get all feedbacks with given email query and sorted
-    async getFeedbacksByEmailSorted(filter, sort?){
+    //get all feedbacks with given query and sorted
+    async getFeedbacksQuerySorted(filter, sort?){
         try{
+            let result: any;
             if(sort === "date") {
                 sort = "created_on";
             }
@@ -62,7 +63,7 @@ export default class FeedbackService{
     }
 
     /*
-        get all feedbacks with given query/filter and
+        get all feedbacks with given entity or status query/filter and
         sort them according to given sort field
     */
     async getFeedbacksFilteredAndSorted(filter?, sort?){

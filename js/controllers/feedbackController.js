@@ -70,18 +70,18 @@ class FeedbackController {
                 let feedbacks;
                 if (posted_by) {
                     if (sort) {
-                        feedbacks: any = yield index_1.feedbackService.getFeedbacksByEmailSorted({ posted_by }, sort);
+                        feedbacks = yield index_1.feedbackService.getFeedbacksQuerySorted({ posted_by }, sort);
                     }
                     else {
-                        feedbacks: any = yield index_1.feedbackService.getFeedbacks({ posted_by });
+                        feedbacks = yield index_1.feedbackService.getFeedbacks({ posted_by });
                     }
                 }
                 else if (email) {
                     if (sort) {
-                        feedbacks: any = yield index_1.feedbackService.getFeedbacksByEmailSorted({ entity_id: email }, sort);
+                        feedbacks = yield index_1.feedbackService.getFeedbacksQuerySorted({ entity_id: email }, sort);
                     }
                     else {
-                        feedbacks: any = yield index_1.feedbackService.getFeedbacks({ entity_id: email });
+                        feedbacks = yield index_1.feedbackService.getFeedbacks({ entity_id: email });
                     }
                 }
                 else {
@@ -118,10 +118,10 @@ class FeedbackController {
                 let feedbacks;
                 if (name) {
                     if (sort) {
-                        feedbacks: any = yield index_1.feedbackService.getFeedbacksByNameSorted({ name, entity: 'technology' }, sort);
+                        feedbacks = yield index_1.feedbackService.getFeedbacksQuerySorted({ name, entity: 'technology' }, sort);
                     }
                     else {
-                        feedbacks: any = yield index_1.feedbackService.getFeedbacks({ name, entity: 'technology' });
+                        feedbacks = yield index_1.feedbackService.getFeedbacks({ name, entity: 'technology' });
                     }
                 }
                 else {

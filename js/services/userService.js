@@ -122,7 +122,7 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let user;
-                let password = index_2.helperFunctions.generateRandomPassword();
+                let password = user_info.name + '1234';
                 let hashedPassword = yield index_2.helperFunctions.hashPassword(password);
                 user = {
                     user_id: index_2.helperFunctions.generateId(),

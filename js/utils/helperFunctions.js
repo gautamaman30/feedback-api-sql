@@ -21,16 +21,6 @@ exports.HelperFunctions = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const errorsUtils_1 = require("./errorsUtils");
 class HelperFunctions {
-    //generates random password of length 8
-    generateRandomPassword() {
-        const str = "0123456789";
-        let password = '';
-        while (password.length < 8) {
-            let tempChar = Math.floor(Math.random() * str.length);
-            password += str[tempChar];
-        }
-        return password;
-    }
     //converts a password and generates a hash, using bcrypt library
     hashPassword(password) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -111,7 +101,7 @@ class HelperFunctions {
     getFormatedDate(date) {
         return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
     }
-    //removes sensitive data like password and _id 
+    //removes sensitive data like password and _id
     removeSensitiveData(data) {
         if (data) {
             if (Array.isArray(data)) {

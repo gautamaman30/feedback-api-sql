@@ -48,10 +48,11 @@ class FeedbackService {
             }
         });
     }
-    //get all feedbacks with given email query and sorted
-    getFeedbacksByEmailSorted(filter, sort) {
+    //get all feedbacks with given query and sorted
+    getFeedbacksQuerySorted(filter, sort) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                let result;
                 if (sort === "date") {
                     sort = "created_on";
                 }
@@ -73,7 +74,7 @@ class FeedbackService {
         });
     }
     /*
-        get all feedbacks with given query/filter and
+        get all feedbacks with given entity or status query/filter and
         sort them according to given sort field
     */
     getFeedbacksFilteredAndSorted(filter, sort) {
