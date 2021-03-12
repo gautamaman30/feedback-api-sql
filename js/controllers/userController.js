@@ -259,6 +259,43 @@ class UserController {
             }
         });
     }
+    //handles get requests for user consumption details
+    getConsumptionDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user_id = req.body.user_id;
+                let name = req.query.name;
+                let email = req.query.email;
+                let sort = req.query.sort;
+                const user = yield index_1.userService.checkUserExist("user_id", user_id);
+                if (user.error) {
+                    throw new Error(user.error);
+                }
+                let result;
+                if (user.roles === "admin") {
+                }
+                else {
+                    if (sort) {
+                        //    result = await userService.getUserConsumptionDetailsSorted({email}, sort);
+                    }
+                    else {
+                        result = yield index_1.userService.getUserConsumptionDetails({ email: user.email });
+                    }
+                }
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                result = index_2.helperFunctions.removeSensitiveData(result);
+                res.status(200);
+                res.send({ result });
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                res.status(400);
+                res.send({ error: e.message });
+            }
+        });
+    }
     //handles post requests for food items consumed by user
     postUserFoodItems(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
