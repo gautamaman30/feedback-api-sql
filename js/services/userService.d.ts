@@ -34,4 +34,28 @@ export default class UserService {
         error: any;
         message?: undefined;
     }>;
+    getConsumptionDetails(query: any): Promise<any>;
+    getConsumptionDetailsSorted(query: any, sort: any): Promise<any>;
+    addUserFoodItem(user_food_info: {
+        food_name: string;
+        email: string;
+        quantity: number;
+        amount_due: number;
+    }): Promise<{
+        message: string;
+        error?: undefined;
+    } | {
+        error: any;
+        message?: undefined;
+    }>;
+    removeUserFoodItem(user_food_info: {
+        food_name: string;
+        email: string;
+    }): Promise<{
+        message: string;
+        error?: undefined;
+    } | {
+        error: any;
+        message?: undefined;
+    }>;
 }

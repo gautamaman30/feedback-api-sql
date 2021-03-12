@@ -187,5 +187,75 @@ class UserService {
             }
         });
     }
+    //get consumed food item details
+    getConsumptionDetails(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.findUserFoodItem(query);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
+    //get consumed food item details sorted
+    getConsumptionDetailsSorted(query, sort) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (sort === "date") {
+                    sort = "consumed_on";
+                }
+                if (sort === "due") {
+                    sort = "amount_due";
+                }
+                const result = yield index_1.database.findUserFoodItemSorted(query, sort);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
+    //adds a new consumed food item by user
+    addUserFoodItem(user_food_info) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.insertUserFoodItem(user_food_info);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return { message: index_2.Messages.USER_FOOD_CREATED };
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
+    //deletes the consumed food item by user
+    removeUserFoodItem(user_food_info) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.deleteUserFoodItem(user_food_info);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return { message: index_2.Messages.USER_FOOD_DELETED };
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
 }
 exports.default = UserService;

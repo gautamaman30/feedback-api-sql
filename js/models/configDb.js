@@ -19,6 +19,8 @@ const typeorm_1 = require("typeorm");
 const user_1 = require("./user");
 const technology_1 = require("./technology");
 const feedback_1 = require("./feedback");
+const foodItem_1 = require("./foodItem");
+const consumption_1 = require("./consumption");
 const configLogger_1 = require("../configLogger");
 class ConnectDb {
     constructor({ type, host, port, username, password, database }) {
@@ -28,7 +30,7 @@ class ConnectDb {
         this.username = username;
         this.password = password;
         this.database = database;
-        this.entities = [user_1.Users, technology_1.Technology, feedback_1.Feedback];
+        this.entities = [user_1.Users, technology_1.Technology, feedback_1.Feedback, foodItem_1.FoodItem, consumption_1.Consumption];
     }
     createDatabaseConnection() {
         return __awaiter(this, void 0, void 0, function* () {

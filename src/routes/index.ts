@@ -4,8 +4,8 @@
 */
 
 import {Router} from "express"
-import {authMiddleware, feedbackValidator, userValidator, technologyValidator} from "../middlewares/index"
-import {userController, technologyController, feedbackController} from "../controllers/index"
+import {authMiddleware, feedbackValidator, userValidator, technologyValidator, foodItemValidator} from "../middlewares/index"
+import {userController, technologyController, feedbackController, foodItemController} from "../controllers/index"
 
 export class RoutesHandler{
     router: Router;
@@ -69,6 +69,21 @@ export class RoutesHandler{
         this.router.route('/technology/feedback')
             .get(feedbackValidator.getTechnologyFeedbacks, feedbackController.getTechnologyFeedbacks)
             .post(feedbackValidator.postTechnologyFeedback, feedbackController.postTechnologyFeedback);
+
+        //food items routes
+        this.router.route('/fooditem')
+            .get(foodItemValidator.getFoodItems, foodItemController.getFoodItems)
+            .post(foodItemValidator.postFoodItem, foodItemController.postFoodItem)
+            .delete(foodItemValidator.deleteFoodItem, foodItemController.deleteFoodItem)
+            .put(foodItemValidator.updateFoodItem, foodItemController.updateFoodItem);
+
+        /*
+            user account routes for food consumption
+        */
+        this.router.route('/user/consume')
+            .get(userValidator.getUserFoodItems, userController.getUserFoodItems)
+            .post(userValidator.postUserFoodItems, userController.postUserFoodItems)
+            .delete(userValidator.deleteUserFoodItems, userController.deleteUserFoodItems)
 
         //handle invalid routes after /api/v1
         this.router.use('/', authMiddleware.handleInvalidRoutes);

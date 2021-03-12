@@ -150,7 +150,6 @@ export default class UserService{
             logger.log('error', err.message);
             return {error: err.message};
         }
-
     }
 
     //updates user's password, title and date of birth
@@ -184,7 +183,67 @@ export default class UserService{
             logger.log('error', err.message);
             return {error: err.message};
         }
-
     }
 
+    //get consumed food item details
+    async getConsumptionDetails(query){
+        try{
+            const result: any = await database.findUserFoodItem(query);
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
+    //get consumed food item details sorted
+    async getConsumptionDetailsSorted(query, sort){
+        try{
+            if(sort === "date") {
+                sort = "consumed_on";
+            }
+            if(sort === "due") {
+                sort = "amount_due";
+            }
+            const result: any = await database.findUserFoodItemSorted(query, sort);
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
+    //adds a new consumed food item by user
+    async addUserFoodItem(user_food_info: {food_name: string, email: string, quantity: number, amount_due: number}){
+        try{
+            const result: any = await database.insertUserFoodItem(user_food_info);
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return {message: Messages.USER_FOOD_CREATED};
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
+    //deletes the consumed food item by user
+    async removeUserFoodItem(user_food_info: {food_name: string, email: string}){
+        try{
+            const result: any = await database.deleteUserFoodItem(user_food_info);
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return {message: Messages.USER_FOOD_DELETED};
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
 }

@@ -8,6 +8,8 @@ import { createConnection, Connection} from "typeorm"
 import { Users } from "./user"
 import { Technology } from "./technology"
 import { Feedback } from "./feedback"
+import { FoodItem } from "./foodItem"
+import { Consumption } from "./consumption"
 import {logger} from "../configLogger"
 
 export class ConnectDb{
@@ -27,7 +29,7 @@ export class ConnectDb{
         this.username = username;
         this.password = password;
         this.database = database;
-        this.entities = [Users, Technology, Feedback];
+        this.entities = [Users, Technology, Feedback, FoodItem, Consumption];
     }
 
     async createDatabaseConnection(){

@@ -56,6 +56,23 @@ class RoutesHandler {
         this.router.route('/technology/feedback')
             .get(index_1.feedbackValidator.getTechnologyFeedbacks, index_2.feedbackController.getTechnologyFeedbacks)
             .post(index_1.feedbackValidator.postTechnologyFeedback, index_2.feedbackController.postTechnologyFeedback);
+        //food items routes
+        this.router.route('/fooditem')
+            .get(index_1.foodItemValidator.getFoodItems, index_2.foodItemController.getFoodItems)
+            .post(index_1.foodItemValidator.postFoodItem, index_2.foodItemController.postFoodItem)
+            .delete(index_1.foodItemValidator.deleteFoodItem, index_2.foodItemController.deleteFoodItem)
+            .put(index_1.foodItemValidator.updateFoodItem, index_2.foodItemController.updateFoodItem);
+        /*
+            user account routes for food consumption
+        */
+        this.router.route('/user/consume')
+            .get(index_1.userValidator.getUserFoodItems, index_2.userController.getUserFoodItems)
+            .post(index_1.userValidator.postUserFoodItems, index_2.userController.postUserFoodItems)
+            .delete(index_1.userValidator.deleteUserFoodItems, index_2.userController.deleteUserFoodItems);
+        /*
+    this.router.route('/user/amount_due')
+        .get(userValidator.getUserAmountDue, userController.getUserAmountDue)
+        */
         //handle invalid routes after /api/v1
         this.router.use('/', index_1.authMiddleware.handleInvalidRoutes);
         return this.router;

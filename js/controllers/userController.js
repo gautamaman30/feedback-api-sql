@@ -162,7 +162,7 @@ class UserController {
         });
     }
     //handles update user requests
-    updateUser(req, res, next) {
+    updateUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user_id = req.body.user_id;
@@ -181,6 +181,138 @@ class UserController {
                 }
                 let user_info = { email: user.email, password, title, date_of_birth };
                 let result = yield index_1.userService.editUser(user_info);
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                res.status(200);
+                res.send(result);
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                res.status(400);
+                res.send({ error: e.message });
+            }
+        });
+    }
+    //handles get requests for food items consumed by user
+    getUserFoodItems(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user_id = req.body.user_id;
+                let name = req.query.name;
+                let email = req.query.email;
+                let sort = req.query.sort;
+                const user = yield index_1.userService.checkUserExist("user_id", user_id);
+                if (user.error) {
+                    throw new Error(user.error);
+                }
+                let result;
+                if (user.roles !== "admin") {
+                    if (name) {
+                        result = yield index_1.userService.getConsumptionDetails({ food_name: name, email: user.email });
+                    }
+                    else if (sort) {
+                        result = yield index_1.userService.getConsumptionDetailsSorted({ email: user.email }, sort);
+                    }
+                    else {
+                        result = yield index_1.userService.getConsumptionDetails({ email: user.email });
+                    }
+                }
+                else {
+                    if (sort) {
+                        if (name) {
+                            result = yield index_1.userService.getConsumptionDetailsSorted({ food_name: name }, sort);
+                        }
+                        else if (email) {
+                            result = yield index_1.userService.getConsumptionDetailsSorted({ email }, sort);
+                        }
+                        else {
+                            result = yield index_1.userService.getConsumptionDetailsSorted({}, sort);
+                        }
+                    }
+                    else {
+                        if (name && email) {
+                            result = yield index_1.userService.getConsumptionDetails({ food_name: name, email: email });
+                        }
+                        else if (name) {
+                            result = yield index_1.userService.getConsumptionDetails({ food_name: name });
+                        }
+                        else if (email) {
+                            result = yield index_1.userService.getConsumptionDetails({ email });
+                        }
+                        else {
+                            result = yield index_1.userService.getConsumptionDetails({});
+                        }
+                    }
+                }
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                result = index_2.helperFunctions.removeSensitiveData(result);
+                res.status(200);
+                res.send({ result });
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                res.status(400);
+                res.send({ error: e.message });
+            }
+        });
+    }
+    //handles post requests for food items consumed by user
+    postUserFoodItems(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user_id = req.body.user_id;
+                let name = req.body.name;
+                let quantity = req.body.quantity;
+                const user = yield index_1.userService.checkUserExist("user_id", user_id);
+                if (user.error) {
+                    throw new Error(user.error);
+                }
+                if (user.roles === "admin") {
+                    throw new Error(index_2.Errors.ADMIN_CONSUME_FOOD);
+                }
+                let foodItem = yield index_1.foodItemService.checkFoodItemExist("name", name);
+                if (foodItem.error) {
+                    throw new Error(foodItem.error);
+                }
+                if (foodItem.quantity < quantity) {
+                    throw new Error(index_2.Errors.FOODITEM_QUANTITY_NOT_AVAILABLE);
+                }
+                let amount_due = Math.floor((quantity * foodItem.price) * 100) / 100;
+                let user_food_info = { food_name: name, email: user.email, quantity, amount_due };
+                const result = yield index_1.userService.addUserFoodItem(user_food_info);
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                quantity = foodItem.quantity - quantity;
+                const foodItem_result = yield index_1.foodItemService.editFoodItem({ name, quantity });
+                if (foodItem_result.error) {
+                    configLogger_1.logger.log('error', foodItem_result.error);
+                }
+                res.status(201);
+                res.send(result);
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                res.status(400);
+                res.send({ error: e.message });
+            }
+        });
+    }
+    //handles delete requests for food items consumed by user
+    deleteUserFoodItems(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const admin_id = req.body.user_id;
+                const name = req.body.name;
+                const email = req.body.email;
+                const admin = yield index_1.userService.checkAdminExist("user_id", admin_id);
+                if (admin.error) {
+                    throw new Error(admin.error);
+                }
+                let result = yield index_1.userService.removeUserFoodItem({ food_name: name, email });
                 if (result.error) {
                     throw new Error(result.error);
                 }

@@ -48,5 +48,4 @@ export class Users {
         nullable: true
     })
     date_of_birth;
-
 }

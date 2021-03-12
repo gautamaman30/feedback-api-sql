@@ -98,6 +98,9 @@ export class HelperFunctions{
                     if(i._id){
                         delete i._id;
                     }
+                    if(i.id){
+                        delete i.id;
+                    }
                 }
             }
             else {
@@ -106,6 +109,9 @@ export class HelperFunctions{
                 }
                 if(data._id) {
                     delete data._id;
+                }
+                if(data.id) {
+                    delete data.id;
                 }
             }
         }
