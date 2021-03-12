@@ -43,6 +43,7 @@ export default class FeedbackController{
             }
             if(user.roles !== "admin"){
                 feedbacks = feedbackService.filterFeedback(feedbacks, "status", ["approved"]);
+                feedbacks = helperFunctions.removeSensitiveData(feedbacks);
             }
 
             feedbacks = helperFunctions.removeSensitiveData(feedbacks);
