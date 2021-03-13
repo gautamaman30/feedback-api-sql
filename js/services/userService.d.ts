@@ -36,6 +36,10 @@ export default class UserService {
     }>;
     getConsumptionDetails(query: any): Promise<any>;
     getConsumptionDetailsSorted(query: any, sort: any): Promise<any>;
+    getTotalAmountDueByFoodItem(query: any): Promise<any>;
+    getTotalAmountDueByUserAndFoodItem(query: any): Promise<any>;
+    getTotalAmountDue(query: any): Promise<any>;
+    getTotalAmountDueForAllUsers(): Promise<any>;
     addUserFoodItem(user_food_info: {
         food_name: string;
         email: string;

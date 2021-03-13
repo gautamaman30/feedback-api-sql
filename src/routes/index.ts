@@ -80,10 +80,12 @@ export class RoutesHandler{
         /*
             user account routes for food consumption
         */
-        this.router.route('/user/consume')
+        this.router.route('/user/consume/fooditem')
             .get(userValidator.getUserFoodItems, userController.getUserFoodItems)
             .post(userValidator.postUserFoodItems, userController.postUserFoodItems)
             .delete(userValidator.deleteUserFoodItems, userController.deleteUserFoodItems)
+
+        this.router.get('/user/consume/fooditem/due', userValidator.getUserTotalAmountDue, userController.getUserTotalAmountDue);
 
         //handle invalid routes after /api/v1
         this.router.use('/', authMiddleware.handleInvalidRoutes);

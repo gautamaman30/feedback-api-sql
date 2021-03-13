@@ -230,6 +230,96 @@ class Database {
             }
         });
     }
+    //finds total amount due by food item
+    findTotalAmountDueByFoodItem(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield typeorm_1.getRepository(consumption_1.Consumption)
+                    .createQueryBuilder("consumption")
+                    .select("consumption.food_name", "food_name")
+                    .addSelect("SUM(consumption.amount_due)", "amount_due")
+                    .where("consumption.food_name = :food_name", { food_name: query.food_name })
+                    .groupBy("consumption.food_name")
+                    .getRawOne();
+                if (!result) {
+                    return {};
+                }
+                return result;
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                return { error: e.message };
+            }
+        });
+    }
+    //finds total amount due for a user by food item
+    findTotalAmountDueByUserAndFoodItem(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield typeorm_1.getRepository(consumption_1.Consumption)
+                    .createQueryBuilder("consumption")
+                    .select("consumption.food_name", "food_name")
+                    .addSelect("consumption.email", "email")
+                    .addSelect("SUM(consumption.amount_due)", "amount_due")
+                    .where("consumption.food_name = :food_name", { food_name: query.food_name })
+                    .andWhere("consumption.email = :email", { email: query.email })
+                    .groupBy("consumption.food_name")
+                    .addGroupBy("consumption.email")
+                    .getRawOne();
+                if (!result) {
+                    return {};
+                }
+                return result;
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                return { error: e.message };
+            }
+        });
+    }
+    //finds total amount due for a user for all food items
+    findTotalAmountDue(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield typeorm_1.getRepository(consumption_1.Consumption)
+                    .createQueryBuilder("consumption")
+                    .select("consumption.email", "email")
+                    .addSelect("SUM(consumption.amount_due)", "amount_due")
+                    .where("consumption.email = :email", { email: query.email })
+                    .groupBy("consumption.email")
+                    .getRawOne();
+                if (!result) {
+                    return {};
+                }
+                return result;
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                return { error: e.message };
+            }
+        });
+    }
+    //finds total amount due for all users
+    findTotalAmountDueForAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield typeorm_1.getRepository(consumption_1.Consumption)
+                    .createQueryBuilder("consumption")
+                    .select("consumption.email", "email")
+                    .addSelect("SUM(consumption.amount_due)", "amount_due")
+                    .groupBy("consumption.email")
+                    .getRawMany();
+                if (!result) {
+                    return {};
+                }
+                return result;
+            }
+            catch (e) {
+                configLogger_1.logger.log('error', e.message);
+                return { error: e.message };
+            }
+        });
+    }
     //updates all users matching the given filter
     updateUser(filter, update) {
         return __awaiter(this, void 0, void 0, function* () {

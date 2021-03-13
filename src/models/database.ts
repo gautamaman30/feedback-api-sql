@@ -204,8 +204,93 @@ export class Database{
         }
     }
 
+    //finds total amount due by food item
+    async findTotalAmountDueByFoodItem(query) {
+        try {
+            const result = await getRepository(Consumption)
+                .createQueryBuilder("consumption")
+                .select("consumption.food_name", "food_name")
+                .addSelect("SUM(consumption.amount_due)", "amount_due")
+                .where("consumption.food_name = :food_name", {food_name: query.food_name})
+                .groupBy("consumption.food_name")
+                .getRawOne();
+            if(!result) {
+                return {};
+            }
+            return result;
+        } catch(e) {
+            logger.log('error', e.message);
+            return {error: e.message};
+        }
+    }
+
+    //finds total amount due for a user by food item
+    async findTotalAmountDueByUserAndFoodItem(query) {
+        try {
+            const result = await getRepository(Consumption)
+                .createQueryBuilder("consumption")
+                .select("consumption.food_name", "food_name")
+                .addSelect("consumption.email", "email")
+                .addSelect("SUM(consumption.amount_due)", "amount_due")
+                .where("consumption.food_name = :food_name", {food_name: query.food_name})
+                .andWhere("consumption.email = :email", {email: query.email})
+                .groupBy("consumption.food_name")
+                .addGroupBy("consumption.email")
+                .getRawOne();
+
+            if(!result) {
+                return {};
+            }
+            return result;
+        } catch(e) {
+            logger.log('error', e.message);
+            return {error: e.message};
+        }
+    }
+
+    //finds total amount due for a user for all food items
+    async findTotalAmountDue(query) {
+        try {
+            const result = await getRepository(Consumption)
+                .createQueryBuilder("consumption")
+                .select("consumption.email", "email")
+                .addSelect("SUM(consumption.amount_due)", "amount_due")
+                .where("consumption.email = :email", {email: query.email})
+                .groupBy("consumption.email")
+                .getRawOne();
+
+            if(!result) {
+                return {};
+            }
+            return result;
+        } catch(e) {
+            logger.log('error', e.message);
+            return {error: e.message};
+        }
+    }
+
+    //finds total amount due for all users
+    async findTotalAmountDueForAllUsers() {
+        try {
+            const result = await getRepository(Consumption)
+                .createQueryBuilder("consumption")
+                .select("consumption.email", "email")
+                .addSelect("SUM(consumption.amount_due)", "amount_due")
+                .groupBy("consumption.email")
+                .getRawMany();
+
+            if(!result) {
+                return {};
+            }
+            return result;
+        } catch(e) {
+            logger.log('error', e.message);
+            return {error: e.message};
+        }
+    }
+
     //updates all users matching the given filter
-    async updateUser(filter, update){
+    async updateUser(filter, update) {
         try{
             const result = await getRepository(Users)
                 .update(filter, update);

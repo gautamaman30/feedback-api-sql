@@ -34,6 +34,14 @@ export declare class Database {
         error: any;
     }>;
     findFoodItemsSorted(query: any, sortField: any): Promise<any>;
+    findTotalAmountDueByFoodItem(query: any): Promise<any>;
+    findTotalAmountDueByUserAndFoodItem(query: any): Promise<any>;
+    findTotalAmountDue(query: any): Promise<any>;
+    findTotalAmountDueForAllUsers(): Promise<any[] | {
+        error?: undefined;
+    } | {
+        error: any;
+    }>;
     updateUser(filter: any, update: any): Promise<import("typeorm").UpdateResult | {
         error: any;
     }>;

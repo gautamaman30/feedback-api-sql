@@ -199,7 +199,7 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user_id = req.body.user_id;
-                let name = req.query.name;
+                let food_name = req.query.food;
                 let email = req.query.email;
                 let sort = req.query.sort;
                 const user = yield index_1.userService.checkUserExist("user_id", user_id);
@@ -208,8 +208,8 @@ class UserController {
                 }
                 let result;
                 if (user.roles !== "admin") {
-                    if (name) {
-                        result = yield index_1.userService.getConsumptionDetails({ food_name: name, email: user.email });
+                    if (food_name) {
+                        result = yield index_1.userService.getConsumptionDetails({ food_name, email: user.email });
                     }
                     else if (sort) {
                         result = yield index_1.userService.getConsumptionDetailsSorted({ email: user.email }, sort);
@@ -220,8 +220,8 @@ class UserController {
                 }
                 else {
                     if (sort) {
-                        if (name) {
-                            result = yield index_1.userService.getConsumptionDetailsSorted({ food_name: name }, sort);
+                        if (food_name) {
+                            result = yield index_1.userService.getConsumptionDetailsSorted({ food_name }, sort);
                         }
                         else if (email) {
                             result = yield index_1.userService.getConsumptionDetailsSorted({ email }, sort);
@@ -231,11 +231,11 @@ class UserController {
                         }
                     }
                     else {
-                        if (name && email) {
-                            result = yield index_1.userService.getConsumptionDetails({ food_name: name, email: email });
+                        if (food_name && email) {
+                            result = yield index_1.userService.getConsumptionDetails({ food_name, email: email });
                         }
-                        else if (name) {
-                            result = yield index_1.userService.getConsumptionDetails({ food_name: name });
+                        else if (food_name) {
+                            result = yield index_1.userService.getConsumptionDetails({ food_name });
                         }
                         else if (email) {
                             result = yield index_1.userService.getConsumptionDetails({ email });
@@ -259,27 +259,50 @@ class UserController {
             }
         });
     }
-    //handles get requests for user consumption details
-    getConsumptionDetails(req, res) {
+    //handles get requests for total amount due for user
+    getUserTotalAmountDue(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user_id = req.body.user_id;
-                let name = req.query.name;
+                let food_name = req.query.food;
                 let email = req.query.email;
-                let sort = req.query.sort;
                 const user = yield index_1.userService.checkUserExist("user_id", user_id);
                 if (user.error) {
                     throw new Error(user.error);
                 }
                 let result;
-                if (user.roles === "admin") {
+                if (food_name) {
+                    const foodItem = yield index_1.foodItemService.checkFoodItemExist("name", food_name);
+                    if (foodItem.error) {
+                        throw new Error(foodItem.error);
+                    }
                 }
-                else {
-                    if (sort) {
-                        //    result = await userService.getUserConsumptionDetailsSorted({email}, sort);
+                if (email) {
+                    const input_user = yield index_1.userService.checkUserExist("email", email);
+                    if (input_user.error) {
+                        throw new Error(input_user.error);
+                    }
+                }
+                if (user.roles !== "admin") {
+                    if (food_name) {
+                        result = yield index_1.userService.getTotalAmountDueByUserAndFoodItem({ food_name, email: user.email });
                     }
                     else {
-                        result = yield index_1.userService.getUserConsumptionDetails({ email: user.email });
+                        result = yield index_1.userService.getTotalAmountDue({ email: user.email });
+                    }
+                }
+                else {
+                    if (email && food_name) {
+                        result = yield index_1.userService.getTotalAmountDueByUserAndFoodItem({ food_name, email: email });
+                    }
+                    else if (food_name) {
+                        result = yield index_1.userService.getTotalAmountDueByFoodItem({ food_name });
+                    }
+                    else if (email) {
+                        result = yield index_1.userService.getTotalAmountDue({ email });
+                    }
+                    else {
+                        result = yield index_1.userService.getTotalAmountDueForAllUsers();
                     }
                 }
                 if (result.error) {
@@ -301,7 +324,7 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user_id = req.body.user_id;
-                let name = req.body.name;
+                let food_name = req.body.food;
                 let quantity = req.body.quantity;
                 const user = yield index_1.userService.checkUserExist("user_id", user_id);
                 if (user.error) {
@@ -310,7 +333,7 @@ class UserController {
                 if (user.roles === "admin") {
                     throw new Error(index_2.Errors.ADMIN_CONSUME_FOOD);
                 }
-                let foodItem = yield index_1.foodItemService.checkFoodItemExist("name", name);
+                let foodItem = yield index_1.foodItemService.checkFoodItemExist("name", food_name);
                 if (foodItem.error) {
                     throw new Error(foodItem.error);
                 }
@@ -318,13 +341,13 @@ class UserController {
                     throw new Error(index_2.Errors.FOODITEM_QUANTITY_NOT_AVAILABLE);
                 }
                 let amount_due = Math.floor((quantity * foodItem.price) * 100) / 100;
-                let user_food_info = { food_name: name, email: user.email, quantity, amount_due };
+                let user_food_info = { food_name, email: user.email, quantity, amount_due };
                 const result = yield index_1.userService.addUserFoodItem(user_food_info);
                 if (result.error) {
                     throw new Error(result.error);
                 }
                 quantity = foodItem.quantity - quantity;
-                const foodItem_result = yield index_1.foodItemService.editFoodItem({ name, quantity });
+                const foodItem_result = yield index_1.foodItemService.editFoodItem({ name: food_name, quantity });
                 if (foodItem_result.error) {
                     configLogger_1.logger.log('error', foodItem_result.error);
                 }
@@ -343,13 +366,13 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const admin_id = req.body.user_id;
-                const name = req.body.name;
+                const food_name = req.body.food;
                 const email = req.body.email;
                 const admin = yield index_1.userService.checkAdminExist("user_id", admin_id);
                 if (admin.error) {
                     throw new Error(admin.error);
                 }
-                let result = yield index_1.userService.removeUserFoodItem({ food_name: name, email });
+                let result = yield index_1.userService.removeUserFoodItem({ food_name, email });
                 if (result.error) {
                     throw new Error(result.error);
                 }

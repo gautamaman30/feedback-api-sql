@@ -48,6 +48,7 @@ class FeedbackController {
                 }
                 if (user.roles !== "admin") {
                     feedbacks = index_1.feedbackService.filterFeedback(feedbacks, "status", ["approved"]);
+                    feedbacks = index_2.helperFunctions.removeSensitiveData(feedbacks);
                 }
                 feedbacks = index_2.helperFunctions.removeSensitiveData(feedbacks);
                 res.status(200);

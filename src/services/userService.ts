@@ -219,6 +219,62 @@ export default class UserService{
         }
     }
 
+    //get total amount due for given food item for all users
+    async getTotalAmountDueByFoodItem(query){
+        try{
+            const result: any = await database.findTotalAmountDueByFoodItem(query);
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
+    //get total amount due for given food item for given user
+    async getTotalAmountDueByUserAndFoodItem(query){
+        try{
+            const result: any = await database.findTotalAmountDueByUserAndFoodItem(query);
+            if(result.error) {
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
+    //get total amount due for all food items by a user
+    async getTotalAmountDue(query){
+        try{
+            const result: any = await database.findTotalAmountDue(query);
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
+    //get total amount due for all users
+    async getTotalAmountDueForAllUsers(){
+        try{
+            const result: any = await database.findTotalAmountDueForAllUsers();
+            if(result.error){
+                throw new Error(Errors.INTERNAL_ERROR);
+            }
+            return result;
+        } catch(err) {
+            logger.log('error', err.message);
+            return {error: err.message};
+        }
+    }
+
     //adds a new consumed food item by user
     async addUserFoodItem(user_food_info: {food_name: string, email: string, quantity: number, amount_due: number}){
         try{

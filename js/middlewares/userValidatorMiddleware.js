@@ -107,18 +107,18 @@ class UserValidator {
     //validates get user consumed food items requests
     getUserFoodItems(req, res, next) {
         let user_consumption_schema = yup_1.object({
-            name: yup_1.string().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            food: yup_1.string().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
             email: yup_1.string().email().trim().max(100),
             sort: yup_1.string().trim().matches(/(quantity|due|date)/)
         });
         let user_consumption_info = {
-            name: req.query.name,
+            food: req.query.food,
             email: req.query.email,
             sort: req.query.sort
         };
         user_consumption_schema.validate(user_consumption_info)
             .then((result) => {
-            req.query.name = result.name;
+            req.query.food = result.food;
             req.query.email = result.email;
             req.query.sort = result.sort;
             return next();
@@ -129,23 +129,41 @@ class UserValidator {
             res.send({ error });
         });
     }
-    //validates get user amount due requests for consumed food items
-    getUserAmountDue(req, res, next) {
-        let user_consumption_schema = yup_1.object({});
+    //validates get user's total amount due for consumed food items requests
+    getUserTotalAmountDue(req, res, next) {
+        let user_consumption_schema = yup_1.object({
+            food: yup_1.string().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            email: yup_1.string().email().trim().max(100)
+        });
+        let user_consumption_info = {
+            food: req.query.food,
+            email: req.query.email
+        };
+        user_consumption_schema.validate(user_consumption_info)
+            .then((result) => {
+            req.query.food = result.food;
+            req.query.email = result.email;
+            return next();
+        }).catch(err => {
+            configLogger_1.logger.log('error', err.message);
+            res.status(400);
+            let error = index_1.helperFunctions.capitalizeString(err.errors);
+            res.send({ error });
+        });
     }
     //validates post user consumed food items requests
     postUserFoodItems(req, res, next) {
         let user_consumption_schema = yup_1.object({
-            name: yup_1.string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            food: yup_1.string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
             quantity: yup_1.number().required().positive().integer().min(1)
         });
         let user_consumption_info = {
-            name: req.body.name,
+            food: req.body.food,
             quantity: req.body.quantity
         };
         user_consumption_schema.validate(user_consumption_info)
             .then((result) => {
-            req.body.name = result.name;
+            req.body.food = result.food;
             req.body.quantity = result.quantity;
             return next();
         }).catch(err => {
@@ -158,16 +176,16 @@ class UserValidator {
     //validates delete user consumed food items requests
     deleteUserFoodItems(req, res, next) {
         let user_consumption_schema = yup_1.object({
-            name: yup_1.string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            food: yup_1.string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
             email: yup_1.string().email().required().trim().max(100)
         });
         let user_consumption_info = {
-            name: req.body.name,
+            food: req.body.food,
             email: req.body.email
         };
         user_consumption_schema.validate(user_consumption_info)
             .then((result) => {
-            req.body.name = result.name;
+            req.body.food = result.food;
             req.body.email = result.email;
             return next();
         }).catch(err => {

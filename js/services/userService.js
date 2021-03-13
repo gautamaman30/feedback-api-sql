@@ -225,6 +225,70 @@ class UserService {
             }
         });
     }
+    //get total amount due for given food item for all users
+    getTotalAmountDueByFoodItem(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.findTotalAmountDueByFoodItem(query);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
+    //get total amount due for given food item for given user
+    getTotalAmountDueByUserAndFoodItem(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.findTotalAmountDueByUserAndFoodItem(query);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
+    //get total amount due for all food items by a user
+    getTotalAmountDue(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.findTotalAmountDue(query);
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
+    //get total amount due for all users
+    getTotalAmountDueForAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield index_1.database.findTotalAmountDueForAllUsers();
+                if (result.error) {
+                    throw new Error(index_2.Errors.INTERNAL_ERROR);
+                }
+                return result;
+            }
+            catch (err) {
+                configLogger_1.logger.log('error', err.message);
+                return { error: err.message };
+            }
+        });
+    }
     //adds a new consumed food item by user
     addUserFoodItem(user_food_info) {
         return __awaiter(this, void 0, void 0, function* () {

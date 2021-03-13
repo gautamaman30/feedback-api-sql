@@ -122,20 +122,20 @@ export class UserValidator{
     //validates get user consumed food items requests
     getUserFoodItems(req: Request, res: Response, next: NextFunction) {
         let user_consumption_schema = object({
-            name: string().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            food: string().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
             email: string().email().trim().max(100),
             sort: string().trim().matches(/(quantity|due|date)/)
         });
 
         let user_consumption_info = {
-            name: req.query.name,
+            food: req.query.food,
             email: req.query.email,
             sort: req.query.sort
         }
 
         user_consumption_schema.validate(user_consumption_info)
             .then((result) => {
-                req.query.name = result.name;
+                req.query.food = result.food;
                 req.query.email = result.email;
                 req.query.sort = result.sort;
 
@@ -149,21 +149,47 @@ export class UserValidator{
 
     }
 
+    //validates get user's total amount due for consumed food items requests
+    getUserTotalAmountDue(req: Request, res: Response, next: NextFunction) {
+        let user_consumption_schema = object({
+            food: string().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            email: string().email().trim().max(100)
+        });
+
+        let user_consumption_info = {
+            food: req.query.food,
+            email: req.query.email
+        }
+
+        user_consumption_schema.validate(user_consumption_info)
+            .then((result) => {
+                req.query.food = result.food;
+                req.query.email = result.email;
+
+                return next();
+            }).catch(err => {
+                logger.log('error', err.message);
+                res.status(400);
+                let error = helperFunctions.capitalizeString(err.errors);
+                res.send({error});
+            })
+    }
+
     //validates post user consumed food items requests
     postUserFoodItems(req: Request, res: Response, next: NextFunction) {
         let user_consumption_schema = object({
-            name: string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            food: string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
             quantity: number().required().positive().integer().min(1)
         });
 
         let user_consumption_info = {
-            name: req.body.name,
+            food: req.body.food,
             quantity: req.body.quantity
         }
 
         user_consumption_schema.validate(user_consumption_info)
             .then((result) => {
-                req.body.name = result.name;
+                req.body.food = result.food;
                 req.body.quantity = result.quantity;
 
                 return next();
@@ -178,18 +204,18 @@ export class UserValidator{
     //validates delete user consumed food items requests
     deleteUserFoodItems(req: Request, res: Response, next: NextFunction) {
         let user_consumption_schema = object({
-            name: string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
+            food: string().required().lowercase().trim().min(3).max(100).matches(/^[a-z]+$/),
             email: string().email().required().trim().max(100)
         });
 
         let user_consumption_info = {
-            name: req.body.name,
+            food: req.body.food,
             email: req.body.email
         }
 
         user_consumption_schema.validate(user_consumption_info)
             .then((result) => {
-                req.body.name = result.name;
+                req.body.food = result.food;
                 req.body.email = result.email;
 
                 return next();

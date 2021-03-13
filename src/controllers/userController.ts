@@ -196,7 +196,7 @@ export default class UserController{
     async getUserFoodItems(req: Request, res: Response) {
         try {
             const user_id: string = req.body.user_id;
-            let name: any = req.query.name;
+            let food_name: any = req.query.food;
             let email: any = req.query.email;
             let sort: any = req.query.sort;
 
@@ -206,8 +206,8 @@ export default class UserController{
             }
             let result;
             if(user.roles !== "admin") {
-                if(name) {
-                    result = await userService.getConsumptionDetails({food_name: name, email: user.email});
+                if(food_name) {
+                    result = await userService.getConsumptionDetails({food_name, email: user.email});
                 } else if(sort) {
                     result = await userService.getConsumptionDetailsSorted({email: user.email}, sort);
                 } else {
@@ -215,18 +215,18 @@ export default class UserController{
                 }
             } else {
                 if(sort) {
-                    if(name) {
-                        result = await userService.getConsumptionDetailsSorted({food_name: name}, sort);
+                    if(food_name) {
+                        result = await userService.getConsumptionDetailsSorted({food_name}, sort);
                     } else if(email) {
                         result = await userService.getConsumptionDetailsSorted({email}, sort);
                     } else {
                         result = await userService.getConsumptionDetailsSorted({}, sort)
                     }
                 } else {
-                    if(name && email) {
-                        result = await userService.getConsumptionDetails({food_name: name, email: email});
-                    } else if(name) {
-                        result = await userService.getConsumptionDetails({food_name: name});
+                    if(food_name && email) {
+                        result = await userService.getConsumptionDetails({food_name, email: email});
+                    } else if(food_name) {
+                        result = await userService.getConsumptionDetails({food_name});
                     } else if(email) {
                         result = await userService.getConsumptionDetails({email});
                     } else {
@@ -249,12 +249,70 @@ export default class UserController{
             res.send({error: e.message});
         }
     }
+    //handles get requests for total amount due for user
+    async getUserTotalAmountDue(req: Request, res: Response) {
+        try {
+            const user_id: string = req.body.user_id;
+            let food_name: any = req.query.food;
+            let email: any = req.query.email;
+
+            const user: any = await userService.checkUserExist("user_id", user_id);
+            if(user.error) {
+                throw new Error(user.error);
+            }
+            let result;
+
+            if(food_name) {
+                const foodItem = await foodItemService.checkFoodItemExist("name", food_name);
+                if(foodItem.error) {
+                    throw new Error(foodItem.error);
+                }
+            }
+            if(email) {
+                const input_user = await userService.checkUserExist("email", email);
+                if(input_user.error) {
+                    throw new Error(input_user.error);
+                }
+            }
+
+            if(user.roles !== "admin") {
+                if(food_name) {
+                    result = await userService.getTotalAmountDueByUserAndFoodItem({food_name, email: user.email});
+                } else {
+                    result = await userService.getTotalAmountDue({email: user.email});
+                }
+            } else {
+                if(email && food_name) {
+                    result = await userService.getTotalAmountDueByUserAndFoodItem({food_name, email: email});
+                } else if(food_name) {
+                    result = await userService.getTotalAmountDueByFoodItem({food_name});
+                } else if(email){
+                    result = await userService.getTotalAmountDue({email});
+                } else {
+                    result = await userService.getTotalAmountDueForAllUsers();
+                }
+            }
+
+            if(result.error) {
+                throw new Error(result.error);
+            }
+
+            result = helperFunctions.removeSensitiveData(result);
+
+            res.status(200);
+            res.send({result})
+        } catch(e) {
+            logger.log('error', e.message);
+            res.status(400);
+            res.send({error: e.message});
+        }
+    }
 
     //handles post requests for food items consumed by user
     async postUserFoodItems(req: Request, res: Response) {
         try {
             const user_id: string = req.body.user_id;
-            let name: string = req.body.name;
+            let food_name: string = req.body.food;
             let quantity: number = req.body.quantity;
 
             const user: any = await userService.checkUserExist("user_id", user_id);
@@ -265,7 +323,7 @@ export default class UserController{
                 throw new Error(Errors.ADMIN_CONSUME_FOOD);
             }
 
-            let foodItem = await foodItemService.checkFoodItemExist("name", name);
+            let foodItem = await foodItemService.checkFoodItemExist("name", food_name);
             if(foodItem.error) {
                 throw new Error(foodItem.error);
             }
@@ -274,7 +332,7 @@ export default class UserController{
             }
 
             let amount_due: number = Math.floor((quantity * foodItem.price)*100)/100;
-            let user_food_info: any = {food_name: name, email: user.email, quantity, amount_due};
+            let user_food_info: any = {food_name, email: user.email, quantity, amount_due};
 
             const result = await userService.addUserFoodItem(user_food_info);
             if(result.error) {
@@ -282,7 +340,7 @@ export default class UserController{
             }
 
             quantity = foodItem.quantity - quantity;
-            const foodItem_result = await foodItemService.editFoodItem({name, quantity})
+            const foodItem_result = await foodItemService.editFoodItem({name: food_name, quantity})
             if(foodItem_result.error) {
                 logger.log('error', foodItem_result.error);
             }
@@ -300,7 +358,7 @@ export default class UserController{
     async deleteUserFoodItems(req: Request, res: Response) {
         try {
             const admin_id: string = req.body.user_id;
-            const name: string = req.body.name;
+            const food_name: string = req.body.food;
             const email: string = req.body.email;
 
             const admin: any = await userService.checkAdminExist("user_id", admin_id);
@@ -308,7 +366,7 @@ export default class UserController{
                 throw new Error(admin.error);
             }
 
-            let result = await userService.removeUserFoodItem({food_name: name, email});
+            let result = await userService.removeUserFoodItem({food_name, email});
             if(result.error) {
                 throw new Error(result.error);
             }

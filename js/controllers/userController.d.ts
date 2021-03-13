@@ -6,6 +6,7 @@ export default class UserController {
     deleteUser(req: Request, res: Response): Promise<void>;
     updateUser(req: Request, res: Response): Promise<void>;
     getUserFoodItems(req: Request, res: Response): Promise<void>;
+    getUserTotalAmountDue(req: Request, res: Response): Promise<void>;
     postUserFoodItems(req: Request, res: Response): Promise<void>;
     deleteUserFoodItems(req: Request, res: Response): Promise<void>;
 }
