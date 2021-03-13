@@ -4,7 +4,7 @@
     and performs queries
 */
 
-import { getRepository } from "typeorm"
+import { getRepository, getManager, EntityManager } from "typeorm"
 import { Users } from "./user"
 import { Technology } from "./technology"
 import { Feedback } from "./feedback"
@@ -41,7 +41,7 @@ export class Database{
 
     //finds users consumed food items matching the given query
     async findUserFoodItem(query){
-        try{
+        try{    
             const result = await getRepository(Consumption)
                 .find(query);
             return result;
@@ -156,8 +156,9 @@ export class Database{
     //finds first food item matching the given query
     async findFoodItem(query){
         try{
-            const result = await getRepository(FoodItem)
-                .findOne(query);
+            const result = await getManager().transaction(async EntityManager => {
+                return await EntityManager.findOne(FoodItem, query);
+            }); 
             return result;
         } catch(e){
             logger.log('error', e.message);
@@ -168,8 +169,9 @@ export class Database{
     //finds all food items matching the given query
     async findFoodItems(query){
         try{
-            const result = await getRepository(FoodItem)
-                .find(query);
+            const result = await getManager().transaction(async EntityManager => {
+                return await EntityManager.find(FoodItem, query);
+            });    
             return result;
         } catch(e){
             logger.log('error', e.message);
@@ -344,8 +346,9 @@ export class Database{
     //updates all food item matching the given filter
     async updateFoodItem(filter, update){
         try{
-            const result = await getRepository(FoodItem)
-                .update(filter, update);
+            const result = await getManager().transaction(async EntityManager => {
+                return await EntityManager.update(FoodItem, filter, update);
+            }); 
             return result;
         } catch(e){
             logger.log('error', e.message);
@@ -368,8 +371,9 @@ export class Database{
     //inserts food item consumed by user with given user information
     async insertUserFoodItem(user_foodItem_info){
         try{
-            const result = await getRepository(Consumption)
-                .insert(user_foodItem_info);
+            const result = await getManager().transaction(async EntityManager => {
+                return await EntityManager.insert(FoodItem, user_foodItem_info);
+            }); 
             return result;
         } catch(e){
             logger.log('error', e.message);
@@ -428,8 +432,9 @@ export class Database{
     //deletes food item consumed by user matching the given query
     async deleteUserFoodItem(query){
         try{
-            const result = await getRepository(Consumption)
-                .delete(query)
+            const result = await getManager().transaction(async EntityManager => {
+                return await EntityManager.delete(FoodItem, query);
+            }); 
             return result;
         } catch(e){
             logger.log('error', e.message);

@@ -193,8 +193,9 @@ class Database {
     findFoodItems(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield typeorm_1.getRepository(foodItem_1.FoodItem)
-                    .find(query);
+                const result = yield typeorm_1.getManager().transaction((EntityManager) => __awaiter(this, void 0, void 0, function* () {
+                    return yield EntityManager.find(foodItem_1.FoodItem, query);
+                }));
                 return result;
             }
             catch (e) {
